@@ -5,21 +5,25 @@ using UnityEngine.Tilemaps;
 
 public class Unit_Control : MonoBehaviour
 {
+    // display information for player
     public string Name;
     public int MaxHP;
-    public int CorrentHP;
+    public int CurrentHP;
+    public int Damage;
+    public string Type;
+    public List<string> Habilities;
 
+    // information for internal use
     public bool SelectedUnit = false;
     public bool Hover = false;
     public bool ally = false;
 
     Map_Manager map_manager;
 
-
     Mouse_Controler mouse;
 
     void Awake() {
-        CorrentHP = MaxHP;
+        CurrentHP = MaxHP;
     }
 
     // Start is called before the first frame update
@@ -72,6 +76,7 @@ public class Unit_Control : MonoBehaviour
         if(Input.GetMouseButtonDown(0)) { //seleciona a unidade q ta em cima do mouse
             if(Hover) { 
                 SelectedUnit = true;
+                GetUnitStats(this);
             } else {
                 SelectedUnit = false;
             }
@@ -91,5 +96,14 @@ public class Unit_Control : MonoBehaviour
         mouse = GameObject.Find("Cursor").GetComponent<Mouse_Controler>();
         Vector2 newpos = new Vector2(mouse.transform.position.x,mouse.transform.position.y);
         return newpos; 
+    }
+
+    private void GetUnitStats(Unit_Control unit) {
+        Debug.Log(unit.Name);
+        Debug.Log(unit.MaxHP);
+        Debug.Log(unit.CurrentHP);
+        Debug.Log(unit.Damage);
+        Debug.Log(unit.Type);
+        Debug.Log(unit.Habilities);
     }
 }

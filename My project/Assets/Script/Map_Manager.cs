@@ -109,7 +109,7 @@ public class Map_Manager : MonoBehaviour
             return datafromtiles[tile];
 
     }
-    // this return a the unit in the location
+    // this return the unit in the location
     public GameObject GetUnit(Vector3Int tilelocation, Tilemap groundtile)
     {
          // ve se tem um tile na localizacao (da pra fazer buracos com isso) 
@@ -151,7 +151,7 @@ public class Map_Manager : MonoBehaviour
             return null;
         }
     }
-
+    // verify if the mouse is in the map (makes ui functionality easier to be implemented)
     public bool IsInMap(Vector2 mouseposition, Vector2 cursorposition) 
     {
         if(Mathf.Abs(mouseposition.x - cursorposition.x) <= 0.5 && Mathf.Abs(mouseposition.y - cursorposition.y) <= 0.25)
