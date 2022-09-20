@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tiles:
   - {fileID: 11400000, guid: 92afec4dd931bdb4bbb2959ca2e5e3f5, type: 2}
-  Name: 
+  Name: Basic Terrain
   APcost: 3
   Hasunit: 1

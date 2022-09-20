@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Selected_Tile : MonoBehaviour
 {
+    
+    public float APcost; // apcost mostra o custo para andar desse tile para outro
+    public bool Hasunit; // has a unit above it
+
     private bool is_selected;
 
     private void Start() {

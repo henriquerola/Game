@@ -9,7 +9,7 @@ public class Map_Manager : MonoBehaviour
     public GameObject SelectedTilesContainer; // um lugar pra colocar todos os select tiles
 
     [SerializeField]
-    private Tilemap map; // escolher qual map
+    public Tilemap map; // escolher qual map
 
     [SerializeField]
     private List<Tile_Data> datalist; // informação das tiles
@@ -75,29 +75,27 @@ public class Map_Manager : MonoBehaviour
             for (int x = bounds.min.x; x < bounds.max.x; x++) {
                 // loc do tile
                 var tilelocation = new Vector3Int(x,y,0);
-                // ve se tem um tile na localizacao (da pra fazer buracos com isso) 
-                if(groundtile.HasTile(tilelocation)) {
-                    var cellpos = groundtile.GetCellCenterWorld(tilelocation);
-                    RaycastHit2D[] hits = Physics2D.RaycastAll(cellpos, Vector2.zero);
 
-                    for(int i = 0; i < hits.Length; i++){
-                        if(hits[i].collider.gameObject.name == "Unit(Clone)") 
-                        {
-                            Tile_Data a = GetTileData(tilelocation); 
-                            if(a != null) 
-                            {
-                                a.Hasunit = true;
-                                Debug.Log("1");      
-                            }
-                            else
-                            {
-                                Destroy(hits[i].collider.gameObject);
-                            }                   
-                        }
+                GameObject unit = GetUnit(tilelocation, groundtile); 
+                Selected_Tile currenttile = GetTileObject(tilelocation, groundtile); // this return the tile in the location
+                // this makes sure that the unit is always connected with the tile below it.
+                if(currenttile != null) 
+                {
+                    if (unit != null) 
+                    {
+                        currenttile.Hasunit = true;
+                    }
+                    else
+                    {
+                        currenttile.Hasunit = false;
                     }
                 }
-            }
-            
+                else 
+                {
+                    Destroy(unit);
+                }                    
+                
+            } 
         }
     }
 
@@ -110,5 +108,56 @@ public class Map_Manager : MonoBehaviour
         else
             return datafromtiles[tile];
 
+    }
+    // this return a the unit in the location
+    public GameObject GetUnit(Vector3Int tilelocation, Tilemap groundtile)
+    {
+         // ve se tem um tile na localizacao (da pra fazer buracos com isso) 
+        if(groundtile.HasTile(tilelocation)) {
+            var cellpos = groundtile.GetCellCenterWorld(tilelocation);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(cellpos, Vector2.zero);
+
+            for(int i = 0; i < hits.Length; i++){
+                if(hits[i].collider.gameObject.name == "Unit(Clone)") 
+                {
+                    return hits[i].collider.gameObject;                 
+                }
+            }
+            return null;
+        }
+        else 
+        {
+            return null;
+        }
+    }
+    // this return the Selected_Tile in the location
+    public Selected_Tile GetTileObject(Vector3Int tilelocation, Tilemap groundtile)
+    {
+         // ve se tem um tile na localizacao (da pra fazer buracos com isso) 
+        if(groundtile.HasTile(tilelocation)) {
+            var cellpos = groundtile.GetCellCenterWorld(tilelocation);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(cellpos, Vector2.zero);
+
+            for(int i = 0; i < hits.Length; i++){
+                if(hits[i].collider.gameObject.name == "Selected Tile(Clone)") 
+                {
+                    return hits[i].collider.gameObject.GetComponent(typeof(Selected_Tile)) as Selected_Tile;                 
+                }
+            }
+            return null;
+        }
+        else 
+        {
+            return null;
+        }
+    }
+
+    public bool IsInMap(Vector2 mouseposition, Vector2 cursorposition) 
+    {
+        if(Mathf.Abs(mouseposition.x - cursorposition.x) <= 0.5 && Mathf.Abs(mouseposition.y - cursorposition.y) <= 0.25)
+        {
+            return true;
+        }
+        return false;
     }
 }

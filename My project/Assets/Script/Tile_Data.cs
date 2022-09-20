@@ -10,8 +10,8 @@ public class Tile_Data : ScriptableObject
 
     public string Name; // name of terrain
     public float APcost; // apcost mostra o custo para andar desse tile para outro
-    public bool Hasunit; // has a unit above it
+    public bool Hasunit = false; // has a unit above it
 
-    void Update() {        
+    void Update() {
     }
 }

@@ -31,10 +31,10 @@ public class Unit_Control : MonoBehaviour
     // Update is called once per frame
     void Update() {
         
-        if(this.transform.parent.name == "Ally Units") {
+        if(this.transform.parent.name == "AllyUnits") {
             this.ally = true;
         }
-        if(this.transform.parent.name == "Enemy Units") {
+        if(this.transform.parent.name == "EnemyUnits") {
             this.ally = false;
         }
         
@@ -44,26 +44,27 @@ public class Unit_Control : MonoBehaviour
 
         if(SelectedUnit) { // abrir a possibilidade de movimento ou ataque para unidades aliadas e mostrar informações de unidades inimigas
             if(Input.GetMouseButtonDown(0)) { // click com uma unidade selecionada, logo ela se move pra onde vc clicar.
+                Vector2 mouseposition = Camera.main.ScreenToWorldPoint(Input.mousePosition); // posisaco 2d do mouse
                 Vector2 newposition = unitmoviment();
 
-                Vector3 check = newposition;
+                map_manager = GameObject.FindGameObjectWithTag("map_manager").GetComponent<Map_Manager>(); // get map_manager
 
-                Vector3Int check2 = Vector3Int.FloorToInt(check);
-
-                map_manager = GameObject.FindGameObjectWithTag("map_manager").GetComponent<Map_Manager>();
-                
-                Tile_Data a = map_manager.GetTileData(check2);
-                if (a != null) {
-                    if (a.Hasunit == true) {
-                        Debug.Log("has a unit");
-                    }
-                    else {
-                        
-                    }
-                }
-                else 
+                if(map_manager.IsInMap(mouseposition, newposition))
                 {
-                    transform.position = newposition;
+                    Vector3Int gridposition = map_manager.map.WorldToCell(newposition);
+                    Selected_Tile destinationtile = map_manager.GetTileObject(gridposition, map_manager.GetComponentInChildren<Tilemap>()); // get the selected tile in the destination
+                    // sees if it can move the unit to the tile. if it has another unit in it or not.
+                    if (destinationtile != null) 
+                    {
+                        if(destinationtile.Hasunit)
+                        {
+                            Debug.Log("invalid location, already has a unit");
+                        }
+                        else
+                        {
+                            transform.position = newposition;
+                        }
+                    }
                 }
             }
         }
@@ -85,6 +86,7 @@ public class Unit_Control : MonoBehaviour
         Hover = false;
     }
 
+    // gets the mouse position has a vector2
     private Vector2 unitmoviment() {
         mouse = GameObject.Find("Cursor").GetComponent<Mouse_Controler>();
         Vector2 newpos = new Vector2(mouse.transform.position.x,mouse.transform.position.y);
