@@ -43,7 +43,7 @@ public class Unit_Control : MonoBehaviour
         }
 
         if(SelectedUnit) { // abrir a possibilidade de movimento ou ataque para unidades aliadas e mostrar informações de unidades inimigas
-            if(Input.GetMouseButtonDown(0)) { // click com uma unidade selecionada, logo ela se move pra onde vc clicar.
+            if(Input.GetMouseButtonDown(0) && this.ally) { // click com uma unidade selecionada, logo ela se move pra onde vc clicar.
                 Vector2 mouseposition = Camera.main.ScreenToWorldPoint(Input.mousePosition); // posisaco 2d do mouse
                 Vector2 newposition = unitmoviment();
 
