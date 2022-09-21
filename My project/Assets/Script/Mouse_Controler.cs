@@ -33,7 +33,7 @@ public class Mouse_Controler : MonoBehaviour
                 if(selectedtile.Hasunit)
                 {
                     GameObject unit = map_manager.GetUnit(selectedtile.gridlocation, map_manager.map);
-                    var path = pathfinder.FindPath(unit.GetComponent<Unit_Control>().activetile, selectedtile);
+                    //var path = pathfinder.FindPath(unit.GetComponent<Unit_Control>().activetile, selectedtile);
                 }
             }
         }
