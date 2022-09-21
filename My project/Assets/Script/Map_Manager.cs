@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class Map_Manager : MonoBehaviour
 {
-    public GameObject selectedtiles_prefab; // selecttiles prefab
+    public Selected_Tile selectedtiles_prefab; // selecttiles prefab
     public GameObject SelectedTilesContainer; // um lugar pra colocar todos os select tiles
 
     [SerializeField]
@@ -15,6 +15,8 @@ public class Map_Manager : MonoBehaviour
     private List<Tile_Data> datalist; // informação das tiles
 
     private Dictionary<TileBase,Tile_Data> datafromtiles; // dicionario com as informaçoes das tile e sua posicao
+
+    public Dictionary<Vector2Int,Selected_Tile> mapa; // mapa dos selected tiles e suas posições
 
     // coloca as informações das tiles no dict datafromtiles
     private void Awake() { 
@@ -41,12 +43,15 @@ public class Map_Manager : MonoBehaviour
             for (int x = bounds.min.x; x < bounds.max.x; x++) {
                 // loc do tile
                 var tilelocation = new Vector3Int(x,y,0);
+                var tilekey = new Vector2Int(x,y);
                 // ve se tem um tile na localizacao (da pra fazer buracos com isso) 
                 if(groundtile.HasTile(tilelocation)) {
                     var selecttile = Instantiate(selectedtiles_prefab, SelectedTilesContainer.transform); // coloca o selecttiles em cada tile do ground
                     var cellpos = groundtile.GetCellCenterWorld(tilelocation); //localizacao como cell e nao pos
                     
                     selecttile.transform.position = new Vector3(cellpos.x,cellpos.y,cellpos.z+1); // coloca na posicao correta com o z+1 pra aparecer na frente
+                    selecttile.gridlocation =  tilelocation;
+                    mapa.Add(tilekey, selecttile);
                 }
 
             }
@@ -159,5 +164,41 @@ public class Map_Manager : MonoBehaviour
             return true;
         }
         return false;
+    }
+    // get all the neighbors tiles and return it
+    public List<Selected_Tile> GetNeighborTiles(Selected_Tile Currenttile)
+    {
+        //var map = Map_Manager.mapa;
+
+        List<Selected_Tile> neighbors = new List<Selected_Tile>();
+        // top
+        Vector2Int Checklocation = new Vector2Int(Currenttile.gridlocation.x, Currenttile.gridlocation.y + 1);
+
+        if(mapa.ContainsKey(Checklocation))
+        {
+            neighbors.Add(mapa[Checklocation]);
+        }
+        // bottom
+        Checklocation = new Vector2Int(Currenttile.gridlocation.x, Currenttile.gridlocation.y - 1);
+
+        if(mapa.ContainsKey(Checklocation))
+        {
+            neighbors.Add(mapa[Checklocation]);
+        }
+        // right
+        Checklocation = new Vector2Int(Currenttile.gridlocation.x + 1, Currenttile.gridlocation.y);
+
+        if(mapa.ContainsKey(Checklocation))
+        {
+            neighbors.Add(mapa[Checklocation]);
+        }
+        // left
+        Checklocation = new Vector2Int(Currenttile.gridlocation.x - 1, Currenttile.gridlocation.y);
+
+        if(mapa.ContainsKey(Checklocation))
+        {
+            neighbors.Add(mapa[Checklocation]);
+        }
+        return neighbors;
     }
 }

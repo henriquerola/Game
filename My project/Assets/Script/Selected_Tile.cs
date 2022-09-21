@@ -7,6 +7,14 @@ public class Selected_Tile : MonoBehaviour
     
     public float APcost; // apcost mostra o custo para andar desse tile para outro
     public bool Hasunit; // has a unit above it
+    // variables needed for pathfinding
+    public int G;
+    public int H;
+    public int F { get { return G + H; } }
+    public bool IsBlocked;
+    public Selected_Tile Previoustile;
+
+    public Vector3Int gridlocation;
 
     private bool is_selected;
 
