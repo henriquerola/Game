@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class Map_Manager : MonoBehaviour
 {
-    public Selected_Tile selectedtiles_prefab; // selecttiles prefab
+    public GameObject selectedtiles_prefab; // selecttiles prefab
     public GameObject SelectedTilesContainer; // um lugar pra colocar todos os select tiles
 
     [SerializeField]
@@ -21,7 +21,7 @@ public class Map_Manager : MonoBehaviour
     // coloca as informações das tiles no dict datafromtiles
     private void Awake() { 
         datafromtiles = new Dictionary<TileBase,Tile_Data>();
-
+        mapa = new Dictionary<Vector2Int,Selected_Tile>();
         foreach (var data in datalist) 
         {
             foreach (var tile in data.tiles) 
@@ -46,7 +46,7 @@ public class Map_Manager : MonoBehaviour
                 var tilekey = new Vector2Int(x,y);
                 // ve se tem um tile na localizacao (da pra fazer buracos com isso) 
                 if(groundtile.HasTile(tilelocation)) {
-                    var selecttile = Instantiate(selectedtiles_prefab, SelectedTilesContainer.transform); // coloca o selecttiles em cada tile do ground
+                    var selecttile = Instantiate(selectedtiles_prefab, SelectedTilesContainer.transform).GetComponent<Selected_Tile>();; // coloca o selecttiles em cada tile do ground
                     var cellpos = groundtile.GetCellCenterWorld(tilelocation); //localizacao como cell e nao pos
                     
                     selecttile.transform.position = new Vector3(cellpos.x,cellpos.y,cellpos.z+1); // coloca na posicao correta com o z+1 pra aparecer na frente
@@ -75,7 +75,7 @@ public class Map_Manager : MonoBehaviour
                 // Debug.Log("pra andar custa " + apcost); 
             }
         }
-        // identificar unidade em cima da tile ( INCOMPLETO )
+        // identificar unidade em cima da tile
         for (int y = bounds.min.y; y < bounds.max.y; y++) { // loop pelo ground (da pra fazer ele passar por outros grid como elevation)
             for (int x = bounds.min.x; x < bounds.max.x; x++) {
                 // loc do tile

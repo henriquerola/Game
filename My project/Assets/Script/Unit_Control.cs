@@ -17,6 +17,7 @@ public class Unit_Control : MonoBehaviour
     public bool SelectedUnit = false;
     public bool Hover = false;
     public bool ally = false;
+    public Selected_Tile activetile;
 
     Map_Manager map_manager;
 
@@ -34,6 +35,8 @@ public class Unit_Control : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
+
+        // Debug.Log(activetile);
         
         if(this.transform.parent.name == "AllyUnits") {
             this.ally = true;
@@ -76,7 +79,7 @@ public class Unit_Control : MonoBehaviour
         if(Input.GetMouseButtonDown(0)) { //seleciona a unidade q ta em cima do mouse
             if(Hover) { 
                 SelectedUnit = true;
-                GetUnitStats(this);
+                //GetUnitStats(this);
             } else {
                 SelectedUnit = false;
             }

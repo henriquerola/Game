@@ -11,6 +11,7 @@ public class Battle_System : MonoBehaviour
     public GameObject Unitprefab; // isso vai virar uma lista conforme for adicionando mais unidades (possivelmente duas listas/ uma pros enimigos e outra para os aliados)
     public GameObject EnemyUnits;
     public GameObject AllyUnits;
+    public Map_Manager map_manager;
 
     public Tilemap ground; // conectado na grid, logo in children vai pegar ground como var
 
@@ -26,6 +27,7 @@ public class Battle_System : MonoBehaviour
         BoundsInt bounds = ground.cellBounds; // pega o limite do mapa
 
         int max_enemies = 100; //numero maximo de enimigos (bom quando quiser mudar a dificuldade do jogo)
+        Unit_Control unit;
 
         // Esse loop é o q vai spawnar objetos,pontos de interesse, inimigos iniciais etc etc
         for (int y = bounds.min.y; y < bounds.max.y; y++) { // loop pelo ground (da pra fazer ele passar por outros grid como elevation)
@@ -41,10 +43,12 @@ public class Battle_System : MonoBehaviour
                         Unitprefab.transform.position = new Vector3(cellpos.x,cellpos.y,cellpos.z+1); 
                         int rand = Random.Range(0,2);
                         if(rand == 1) {
-                            Instantiate(Unitprefab, EnemyUnits.transform);
+                            unit= Instantiate(Unitprefab, EnemyUnits.transform).GetComponent<Unit_Control>();
                         } else {
-                            Instantiate(Unitprefab, AllyUnits.transform);
+                            unit = Instantiate(Unitprefab, AllyUnits.transform).GetComponent<Unit_Control>();
                         }
+                        unit.activetile = map_manager.GetTileObject(tilelocation, ground);
+                        Debug.Log(map_manager.GetTileObject(tilelocation, ground));
                     } 
                 }
 

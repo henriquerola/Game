@@ -7,14 +7,34 @@ public class Mouse_Controler : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera; //just so i can chosse wich camera
 
+    public float Speed;
+
+    private Path_Finder pathfinder;
+
+    public Map_Manager map_manager;
+
+    private void Start() 
+    {
+        pathfinder = new Path_Finder();
+    }
+
     // Start is called before the first frame update
     private void LateUpdate() {
         var focusontilehit = focusontile(); 
+
         if(focusontilehit.HasValue) { // verifica se esta em cima de um tile 
-            GameObject selectedtile = focusontilehit.Value.collider.gameObject; //pega aonde esta esse tile
+
+            Selected_Tile selectedtile = focusontilehit.Value.collider.gameObject.GetComponent<Selected_Tile>(); //pega aonde esta esse tile
             transform.position = selectedtile.transform.position; // coloca o mous no lugar certo
+
             if(Input.GetMouseButtonDown(0)) {
-                selectedtile.GetComponent<Selected_Tile>().showtile(); //tile branco pra mostrar q vc selecionou ele (chama o select_tiles.cs)
+                selectedtile.showtile(); //tile branco pra mostrar q vc selecionou ele (chama o select_tiles.cs)
+
+                if(selectedtile.Hasunit)
+                {
+                    GameObject unit = map_manager.GetUnit(selectedtile.gridlocation, map_manager.map);
+                    var path = pathfinder.FindPath(unit.GetComponent<Unit_Control>().activetile, selectedtile);
+                }
             }
         }
     }

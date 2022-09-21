@@ -6,6 +6,7 @@ using UnityEngine;
 // take care of the pathfinding of units
 public class Path_Finder
 {
+    Map_Manager map_manager;
     public List<Selected_Tile> FindPath(Selected_Tile Start, Selected_Tile End) 
     {
         List<Selected_Tile> Openlist = new List<Selected_Tile>(); // list with all tiles that are not yet checked
@@ -26,7 +27,7 @@ public class Path_Finder
                 return GetFinishedList(Start, End);
             }
 
-            var Neighbortiles = GetNeighborTiles(Currenttile); // get neightbor tiles
+            var Neighbortiles = map_manager.GetNeighborTiles(Currenttile); // get neightbor tiles
 
             foreach(var neighbor in Neighbortiles)
             {
