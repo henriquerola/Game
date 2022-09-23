@@ -11,7 +11,7 @@ public class Mouse_Controler : MonoBehaviour
 
     private Path_Finder pathfinder;
 
-    public Map_Manager map_manager;
+    public Unit_Control selectedunit;
 
     private void Start() 
     {
@@ -30,13 +30,21 @@ public class Mouse_Controler : MonoBehaviour
             if(Input.GetMouseButtonDown(0)) {
                 selectedtile.showtile(); //tile branco pra mostrar q vc selecionou ele (chama o select_tiles.cs)
 
-                if(selectedtile.Hasunit)
+                if(selectedunit != null) 
                 {
-                    GameObject unit = map_manager.GetUnit(selectedtile.gridlocation, map_manager.map);
-                    //var path = pathfinder.FindPath(unit.GetComponent<Unit_Control>().activetile, selectedtile);
+                    if(selectedtile.Hasunit)
+                    {
+
+                    } else
+                    {
+                        Debug.Log("pathfinding executed");
+                        var path = pathfinder.FindPath(selectedunit.activetile ,selectedtile);
+                    }
                 }
             }
         }
+        Battle_System system = GameObject.Find("BattleSystem").GetComponent<Battle_System>();
+        selectedunit = system.GetSelectedUnit(system.EnemyUnits, system.AllyUnits); // get current selected unit
     }
 
     public RaycastHit2D? focusontile() {

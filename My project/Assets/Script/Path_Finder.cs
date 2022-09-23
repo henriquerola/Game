@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+
 
 // take care of the pathfinding of units
 public class Path_Finder
 {
-    Map_Manager map_manager;
+    Map_Manager map_manager = GameObject.Find("Grid").GetComponentInChildren<Map_Manager>();
+
     public List<Selected_Tile> FindPath(Selected_Tile Start, Selected_Tile End) 
     {
         List<Selected_Tile> Openlist = new List<Selected_Tile>(); // list with all tiles that are not yet checked

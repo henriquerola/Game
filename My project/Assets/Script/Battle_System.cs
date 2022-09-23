@@ -47,8 +47,6 @@ public class Battle_System : MonoBehaviour
                         } else {
                             unit = Instantiate(Unitprefab, AllyUnits.transform).GetComponent<Unit_Control>();
                         }
-                        unit.activetile = map_manager.GetTileObject(tilelocation, ground);
-                        Debug.Log(map_manager.GetTileObject(tilelocation, ground));
                     } 
                 }
 
@@ -61,5 +59,29 @@ public class Battle_System : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public Unit_Control GetSelectedUnit(GameObject AllyUnits, GameObject EnemyUnits)
+    {
+        Unit_Control[] units = AllyUnits.GetComponentsInChildren<Unit_Control>();
+
+        foreach(var unit in units) 
+        {
+            if(unit.SelectedUnit == true)
+            {
+                return unit;
+            }
+        }
+
+        units = EnemyUnits.GetComponentsInChildren<Unit_Control>();
+
+        foreach(var unit in units) 
+        {
+            if(unit.SelectedUnit == true)
+            {
+                return unit;
+            }
+        }
+        return null;
     }
 }

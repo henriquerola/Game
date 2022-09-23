@@ -1817,6 +1817,8 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   Speed: 3
   map_manager: {fileID: 1443602401}
+  enemyunits: {fileID: 502282766}
+  allyunits: {fileID: 557778585}
 --- !u!212 &1605572639
 SpriteRenderer:
   m_ObjectHideFlags: 0

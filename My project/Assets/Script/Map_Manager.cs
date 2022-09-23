@@ -80,7 +80,6 @@ public class Map_Manager : MonoBehaviour
             for (int x = bounds.min.x; x < bounds.max.x; x++) {
                 // loc do tile
                 var tilelocation = new Vector3Int(x,y,0);
-
                 GameObject unit = GetUnit(tilelocation, groundtile); 
                 Selected_Tile currenttile = GetTileObject(tilelocation, groundtile); // this return the tile in the location
                 // this makes sure that the unit is always connected with the tile below it.
@@ -88,7 +87,9 @@ public class Map_Manager : MonoBehaviour
                 {
                     if (unit != null) 
                     {
-                        currenttile.Hasunit = true;
+                        Unit_Control unit2 = unit.GetComponent<Unit_Control>();
+                        unit2.activetile = currenttile; // put current tile in the activetile variable
+                        currenttile.Hasunit = true; 
                     }
                     else
                     {
@@ -201,4 +202,5 @@ public class Map_Manager : MonoBehaviour
         }
         return neighbors;
     }
+
 }
