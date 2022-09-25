@@ -25,7 +25,7 @@ public class Range_Finder
 
             foreach (var tile in tilepriviousstep) // makes so you dont have to search tiles that you already searched
             {
-                surroundingtiles.AddRange(map_manager.GetNeighborTiles(tile));
+                surroundingtiles.AddRange(map_manager.GetNeighborTiles(tile, new List<Selected_Tile>()));
             }
 
             inrangetiles.AddRange(surroundingtiles);

@@ -10,7 +10,7 @@ public class Path_Finder
 {
     Map_Manager map_manager = GameObject.Find("Grid").GetComponentInChildren<Map_Manager>();
 
-    public List<Selected_Tile> FindPath(Selected_Tile Start, Selected_Tile End) 
+    public List<Selected_Tile> FindPath(Selected_Tile Start, Selected_Tile End, List<Selected_Tile> searchabletiles) 
     {
         List<Selected_Tile> Openlist = new List<Selected_Tile>(); // list with all tiles that are not yet checked
         List<Selected_Tile> Closelist = new List<Selected_Tile>(); // list with all the tiles checked
@@ -30,7 +30,7 @@ public class Path_Finder
                 return GetFinishedList(Start, End);
             }
 
-            var Neighbortiles = map_manager.GetNeighborTiles(Currenttile); // get neightbor tiles
+            var Neighbortiles = map_manager.GetNeighborTiles(Currenttile, searchabletiles); // get neightbor tiles
 
             foreach(var neighbor in Neighbortiles)
             {

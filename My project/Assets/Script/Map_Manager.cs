@@ -167,38 +167,51 @@ public class Map_Manager : MonoBehaviour
         return false;
     }
     // get all the neighbors tiles and return it
-    public List<Selected_Tile> GetNeighborTiles(Selected_Tile Currenttile)
+    public List<Selected_Tile> GetNeighborTiles(Selected_Tile Currenttile, List<Selected_Tile> searchabletiles)
     {
-        //var map = Map_Manager.mapa;
+        Dictionary<Vector2Int, Selected_Tile> tilestosearch = new Dictionary<Vector2Int, Selected_Tile>();
+
+        if(searchabletiles.Count > 0)
+        {
+            foreach (var tile in searchabletiles)
+            {
+                tilestosearch.Add(tile.grid2Dlocation, tile);
+            }
+            Debug.Log("using restrained tiles");
+        } else
+        {
+            tilestosearch = mapa;
+            Debug.Log("using all map");
+        }
 
         List<Selected_Tile> neighbors = new List<Selected_Tile>();
         // top
         Vector2Int Checklocation = new Vector2Int(Currenttile.gridlocation.x, Currenttile.gridlocation.y + 1);
 
-        if(mapa.ContainsKey(Checklocation) && !mapa[Checklocation].Hasunit)
+        if(tilestosearch.ContainsKey(Checklocation) && !tilestosearch[Checklocation].Hasunit)
         {
-            neighbors.Add(mapa[Checklocation]);
+            neighbors.Add(tilestosearch[Checklocation]);
         }
         // bottom
         Checklocation = new Vector2Int(Currenttile.gridlocation.x, Currenttile.gridlocation.y - 1);
 
-        if(mapa.ContainsKey(Checklocation) && !mapa[Checklocation].Hasunit)
+        if(tilestosearch.ContainsKey(Checklocation) && !tilestosearch[Checklocation].Hasunit)
         {
-            neighbors.Add(mapa[Checklocation]);
+            neighbors.Add(tilestosearch[Checklocation]);
         }
         // right
         Checklocation = new Vector2Int(Currenttile.gridlocation.x + 1, Currenttile.gridlocation.y);
 
-        if(mapa.ContainsKey(Checklocation) && !mapa[Checklocation].Hasunit)
+        if(tilestosearch.ContainsKey(Checklocation) && !tilestosearch[Checklocation].Hasunit)
         {
-            neighbors.Add(mapa[Checklocation]);
+            neighbors.Add(tilestosearch[Checklocation]);
         }
         // left
         Checklocation = new Vector2Int(Currenttile.gridlocation.x - 1, Currenttile.gridlocation.y);
 
-        if(mapa.ContainsKey(Checklocation) && !mapa[Checklocation].Hasunit)
+        if(tilestosearch.ContainsKey(Checklocation) && !tilestosearch[Checklocation].Hasunit)
         {
-            neighbors.Add(mapa[Checklocation]);
+            neighbors.Add(tilestosearch[Checklocation]);
         }
         return neighbors;
     }

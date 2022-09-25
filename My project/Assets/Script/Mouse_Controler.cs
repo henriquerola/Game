@@ -27,28 +27,26 @@ public class Mouse_Controler : MonoBehaviour
     private void LateUpdate() {
         var focusontilehit = focusontile(); 
 
-        if(selectedunit != null)
-        {
-            GetInRangeTiles(selectedunit);
-        }
-
         if(focusontilehit.HasValue) { // verifica se esta em cima de um tile 
 
             Selected_Tile selectedtile = focusontilehit.Value.collider.gameObject.GetComponent<Selected_Tile>(); //pega aonde esta esse tile
             transform.position = selectedtile.transform.position; // coloca o mous no lugar certo
 
             if(Input.GetMouseButtonDown(0)) {
-                selectedtile.showtile(); //tile branco pra mostrar q vc selecionou ele (chama o select_tiles.cs)
+                // selectedtile.showtile(); //tile branco pra mostrar q vc selecionou ele (chama o select_tiles.cs)
+                // selectedtile.is_selected = true;
+                
 
                 if(selectedunit != null)  // se uma unidade esta selecionada
                 {
+                    GetInRangeTiles(selectedunit);
                     if(selectedtile.Hasunit) // se a novo local tem uma unidade
                     {
 
                     } else if(selectedunit.ally)
                     {
                         Debug.Log("pathfinding executed");
-                        path = pathfinder.FindPath(selectedunit.activetile ,selectedtile);
+                        path = pathfinder.FindPath(selectedunit.activetile ,selectedtile, inrangetiles);
                     }
                 }
             }
@@ -95,6 +93,11 @@ public class Mouse_Controler : MonoBehaviour
         {
             PositionUnitOnTile(unit, path[0]); 
             path.RemoveAt(0);
+        }
+
+        if( path.Count == 0 )
+        {
+            GetInRangeTiles(unit);
         }
     }
     // put unit pos = to tile pos and unit.activetile

@@ -15,24 +15,16 @@ public class Selected_Tile : MonoBehaviour
     public Selected_Tile Previoustile;
 
     public Vector3Int gridlocation;
+    public Vector2Int grid2Dlocation { get { return new Vector2Int(gridlocation.x, gridlocation.y); } }
 
-    private bool is_selected;
+    public bool is_selected;
 
     private void Start() {
         hidetile();
     }
-
-    void Update()
-    {
-        if(Input.GetMouseButtonDown(0)) {
-            hidetile();
-            is_selected = false;
-        } 
-    }
     
     public void showtile() {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0.5f);
-        is_selected = true;
     }
 
     public void hidetile() {
