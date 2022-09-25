@@ -10,19 +10,27 @@ public class Mouse_Controler : MonoBehaviour
 
     public float Speed = 1;
     private List<Selected_Tile> path = new List<Selected_Tile>();
+    private List<Selected_Tile> inrangetiles = new List<Selected_Tile>();
 
     private Path_Finder pathfinder;
+    private Range_Finder rangefinder;
 
     public Unit_Control selectedunit;
 
     private void Start() 
     {
         pathfinder = new Path_Finder();
+        rangefinder = new Range_Finder();
     }
 
     // Start is called before the first frame update
     private void LateUpdate() {
         var focusontilehit = focusontile(); 
+
+        if(selectedunit != null)
+        {
+            GetInRangeTiles(selectedunit);
+        }
 
         if(focusontilehit.HasValue) { // verifica se esta em cima de um tile 
 
@@ -94,5 +102,20 @@ public class Mouse_Controler : MonoBehaviour
     {
         unit.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
         unit.activetile = tile;
+    }
+
+    private void GetInRangeTiles(Unit_Control unit)
+    {
+        foreach (var tile in inrangetiles)
+        {
+            tile.hidetile();
+        }
+
+        inrangetiles = rangefinder.GetTilesInRange(unit.activetile, unit.Moviment);
+
+        foreach (var tile in inrangetiles)
+        {
+            tile.showtile();
+        }
     }
 }

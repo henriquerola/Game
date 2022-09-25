@@ -12,6 +12,7 @@ public class Unit_Control : MonoBehaviour
     public int Damage;
     public string Type;
     public List<string> Habilities;
+    public int Moviment = 6;
 
     // information for internal use
     public bool SelectedUnit = false;

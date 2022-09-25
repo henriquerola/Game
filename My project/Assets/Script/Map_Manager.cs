@@ -175,28 +175,28 @@ public class Map_Manager : MonoBehaviour
         // top
         Vector2Int Checklocation = new Vector2Int(Currenttile.gridlocation.x, Currenttile.gridlocation.y + 1);
 
-        if(mapa.ContainsKey(Checklocation))
+        if(mapa.ContainsKey(Checklocation) && !mapa[Checklocation].Hasunit)
         {
             neighbors.Add(mapa[Checklocation]);
         }
         // bottom
         Checklocation = new Vector2Int(Currenttile.gridlocation.x, Currenttile.gridlocation.y - 1);
 
-        if(mapa.ContainsKey(Checklocation))
+        if(mapa.ContainsKey(Checklocation) && !mapa[Checklocation].Hasunit)
         {
             neighbors.Add(mapa[Checklocation]);
         }
         // right
         Checklocation = new Vector2Int(Currenttile.gridlocation.x + 1, Currenttile.gridlocation.y);
 
-        if(mapa.ContainsKey(Checklocation))
+        if(mapa.ContainsKey(Checklocation) && !mapa[Checklocation].Hasunit)
         {
             neighbors.Add(mapa[Checklocation]);
         }
         // left
         Checklocation = new Vector2Int(Currenttile.gridlocation.x - 1, Currenttile.gridlocation.y);
 
-        if(mapa.ContainsKey(Checklocation))
+        if(mapa.ContainsKey(Checklocation) && !mapa[Checklocation].Hasunit)
         {
             neighbors.Add(mapa[Checklocation]);
         }
