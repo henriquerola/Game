@@ -40,7 +40,7 @@ public class Unit_Control : MonoBehaviour
         }
         
         if(Hover) { // deixar brilhante ou mostrar informções basicas aqui
-
+        
         }
 
         if(SelectedUnit) { // abrir a possibilidade de movimento ou ataque para unidades aliadas e mostrar informações de unidades inimigas

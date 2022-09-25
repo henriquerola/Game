@@ -17,8 +17,6 @@ public class Selected_Tile : MonoBehaviour
     public Vector3Int gridlocation;
     public Vector2Int grid2Dlocation { get { return new Vector2Int(gridlocation.x, gridlocation.y); } }
 
-    public bool is_selected;
-
     private void Start() {
         hidetile();
     }

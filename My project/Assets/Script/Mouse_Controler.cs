@@ -25,7 +25,12 @@ public class Mouse_Controler : MonoBehaviour
 
     // Start is called before the first frame update
     private void LateUpdate() {
-        var focusontilehit = focusontile(); 
+        var focusontilehit = focusontile();
+
+        if(selectedunit != null)
+        {
+            GetInRangeTiles(selectedunit);
+        } 
 
         if(focusontilehit.HasValue) { // verifica se esta em cima de um tile 
 
@@ -33,13 +38,9 @@ public class Mouse_Controler : MonoBehaviour
             transform.position = selectedtile.transform.position; // coloca o mous no lugar certo
 
             if(Input.GetMouseButtonDown(0)) {
-                // selectedtile.showtile(); //tile branco pra mostrar q vc selecionou ele (chama o select_tiles.cs)
-                // selectedtile.is_selected = true;
-                
 
                 if(selectedunit != null)  // se uma unidade esta selecionada
                 {
-                    GetInRangeTiles(selectedunit);
                     if(selectedtile.Hasunit) // se a novo local tem uma unidade
                     {
 
@@ -55,6 +56,10 @@ public class Mouse_Controler : MonoBehaviour
         if(path.Count > 0)
         {
             MoveAlongPath(selectedunit);
+            if(path.Count == 0)
+            {
+                selectedunit.SelectedUnit = true;
+            }
 
         } else 
         {
@@ -107,7 +112,7 @@ public class Mouse_Controler : MonoBehaviour
         unit.activetile = tile;
     }
 
-    private void GetInRangeTiles(Unit_Control unit)
+    public void GetInRangeTiles(Unit_Control unit)
     {
         foreach (var tile in inrangetiles)
         {
