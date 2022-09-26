@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
+using static ArrowTranslator;
 
 public class Mouse_Controler : MonoBehaviour
 {
@@ -14,13 +15,17 @@ public class Mouse_Controler : MonoBehaviour
 
     private Path_Finder pathfinder;
     private Range_Finder rangefinder;
+    private ArrowTranslator arrowtranslator;
 
     public Unit_Control selectedunit;
+
+    private bool ismoving = false;
 
     private void Start() 
     {
         pathfinder = new Path_Finder();
         rangefinder = new Range_Finder();
+        arrowtranslator = new ArrowTranslator();
     }
 
     // Start is called before the first frame update
@@ -37,6 +42,25 @@ public class Mouse_Controler : MonoBehaviour
             Selected_Tile selectedtile = focusontilehit.Value.collider.gameObject.GetComponent<Selected_Tile>(); //pega aonde esta esse tile
             transform.position = selectedtile.transform.position; // coloca o mous no lugar certo
 
+            if(inrangetiles.Contains(selectedtile) && ismoving)
+            {
+                path = pathfinder.FindPath(selectedunit.activetile ,selectedtile, inrangetiles);
+
+                foreach (var tile in inrangetiles)
+                {
+                    tile.SetArrowSprite(ArrowDirection.None);
+                }
+
+                for (int i = 0; i < path.Count; i++)
+                {
+                    var previoustile = i > 0 ? path[i - 1] : selectedunit.activetile;
+                    var futuretile = i < path.Count - 1? path[i + 1] : null;
+
+                    var arrowdir = arrowtranslator.TranslateDirection(previoustile, path[i], futuretile);
+                    path[i].SetArrowSprite(arrowdir);
+                }
+            }
+
             if(Input.GetMouseButtonDown(0)) {
 
                 if(selectedunit != null)  // se uma unidade esta selecionada
@@ -46,14 +70,13 @@ public class Mouse_Controler : MonoBehaviour
 
                     } else if(selectedunit.ally)
                     {
-                        Debug.Log("pathfinding executed");
-                        path = pathfinder.FindPath(selectedunit.activetile ,selectedtile, inrangetiles);
+                        ismoving = true;
                     }
                 }
             }
         }
 
-        if(path.Count > 0)
+        if(path.Count > 0 && ismoving)
         {
             MoveAlongPath(selectedunit);
             if(path.Count == 0)
@@ -103,6 +126,7 @@ public class Mouse_Controler : MonoBehaviour
         if( path.Count == 0 )
         {
             GetInRangeTiles(unit);
+            ismoving = false;
         }
     }
     // put unit pos = to tile pos and unit.activetile
