@@ -35,16 +35,16 @@ public class Selected_Tile : MonoBehaviour
 
     public void SetArrowSprite(ArrowDirection d)
     {
-        // var arrow = GetComponentsInChildren<SpriteRenderer>(); // [1]
+        SpriteRenderer[] arrow = GetComponentsInChildren<SpriteRenderer>(); // [1]
         if(d == ArrowDirection.None)
         {
-            //arrow.color = new Color(1,1,1,0);
+            arrow[1].color = new Color(1,1,1,0);
         }
         else
         {
-            //arrow.color = new Color(1,1,1,1);
-            //arrow.sprite = arrow[(int)d];
-            //arrow.sortingOrder = GetComponent<SpriteRenderer>().sortingOrder;
+            arrow[1].color = new Color(1,1,1,1);
+            arrow[1].sprite = arrows[(int)d];
+            arrow[1].sortingOrder = GetComponent<SpriteRenderer>().sortingOrder;
         }
     }
 }

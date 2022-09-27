@@ -42,22 +42,23 @@ public class Mouse_Controler : MonoBehaviour
             Selected_Tile selectedtile = focusontilehit.Value.collider.gameObject.GetComponent<Selected_Tile>(); //pega aonde esta esse tile
             transform.position = selectedtile.transform.position; // coloca o mous no lugar certo
 
-            if(inrangetiles.Contains(selectedtile) && ismoving)
+            if(inrangetiles.Contains(selectedtile) && !ismoving)
             {
-                path = pathfinder.FindPath(selectedunit.activetile ,selectedtile, inrangetiles);
-
-                foreach (var tile in inrangetiles)
+                if(selectedunit != null)
                 {
-                    tile.SetArrowSprite(ArrowDirection.None);
-                }
+                    path = pathfinder.FindPath(selectedunit.activetile ,selectedtile, inrangetiles);
 
-                for (int i = 0; i < path.Count; i++)
-                {
-                    var previoustile = i > 0 ? path[i - 1] : selectedunit.activetile;
-                    var futuretile = i < path.Count - 1? path[i + 1] : null;
-
-                    var arrowdir = arrowtranslator.TranslateDirection(previoustile, path[i], futuretile);
-                    path[i].SetArrowSprite(arrowdir);
+                    foreach (var tile in inrangetiles)
+                    {
+                        tile.SetArrowSprite(ArrowDirection.None);
+                    }
+                    for (int i = 0; i < path.Count; i++)
+                    {
+                        var previoustile = i > 0 ? path[i - 1] : selectedunit.activetile;
+                        var futuretile = i < path.Count - 1? path[i + 1] : null;
+                        var arrowdir = arrowtranslator.TranslateDirection(previoustile, path[i], futuretile);
+                        path[i].SetArrowSprite(arrowdir);
+                    }
                 }
             }
 
@@ -84,7 +85,7 @@ public class Mouse_Controler : MonoBehaviour
                 selectedunit.SelectedUnit = true;
             }
 
-        } else 
+        } else
         {
             Battle_System system = GameObject.Find("BattleSystem").GetComponent<Battle_System>();
             selectedunit = system.GetSelectedUnit(system.EnemyUnits, system.AllyUnits); // get current selected unit

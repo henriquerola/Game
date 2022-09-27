@@ -177,11 +177,9 @@ public class Map_Manager : MonoBehaviour
             {
                 tilestosearch.Add(tile.grid2Dlocation, tile);
             }
-            Debug.Log("using restrained tiles");
         } else
         {
             tilestosearch = mapa;
-            Debug.Log("using all map");
         }
 
         List<Selected_Tile> neighbors = new List<Selected_Tile>();
