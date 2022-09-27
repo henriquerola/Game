@@ -44,15 +44,15 @@ public class Mouse_Controler : MonoBehaviour
 
             if(inrangetiles.Contains(selectedtile) && !ismoving)
             {
-                if(selectedunit != null)
+                if(selectedunit != null && selectedunit.ally)
                 {
                     path = pathfinder.FindPath(selectedunit.activetile ,selectedtile, inrangetiles);
 
-                    foreach (var tile in inrangetiles)
+                    foreach (var tile in inrangetiles) // hide arrows
                     {
                         tile.SetArrowSprite(ArrowDirection.None);
                     }
-                    for (int i = 0; i < path.Count; i++)
+                    for (int i = 0; i < path.Count; i++) // show arrows
                     {
                         var previoustile = i > 0 ? path[i - 1] : selectedunit.activetile;
                         var futuretile = i < path.Count - 1? path[i + 1] : null;
