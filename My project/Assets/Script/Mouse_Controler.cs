@@ -66,10 +66,7 @@ public class Mouse_Controler : MonoBehaviour
 
                 if(selectedunit != null)  // se uma unidade esta selecionada
                 {
-                    if(selectedtile.Hasunit) // se a novo local tem uma unidade
-                    {
-
-                    } else if(selectedunit.ally)
+                    if(selectedunit.ally && inrangetiles.Contains(selectedtile) && !selectedtile.Hasunit) // se é um movimento valido
                     {
                         ismoving = true;
                     }
