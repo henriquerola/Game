@@ -69,6 +69,7 @@ public class Mouse_Controler : MonoBehaviour
                     if(selectedunit.ally && inrangetiles.Contains(selectedtile) && !selectedtile.Hasunit) // se é um movimento valido
                     {
                         ismoving = true;
+                        selectedunit.Moviment -= path.Count;
                     }
                 }
             }
@@ -126,6 +127,7 @@ public class Mouse_Controler : MonoBehaviour
             GetInRangeTiles(unit);
             ismoving = false;
         }
+        
     }
     // put unit pos = to tile pos and unit.activetile
     public void PositionUnitOnTile(Unit_Control unit, Selected_Tile tile)
