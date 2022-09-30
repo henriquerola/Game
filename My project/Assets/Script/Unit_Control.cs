@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
 public class Unit_Control : MonoBehaviour
 {
     // display information for player
@@ -12,7 +13,8 @@ public class Unit_Control : MonoBehaviour
     public int Damage;
     public string Type;
     public List<string> Habilities;
-    public int Moviment = 6;
+    public int MaxMoviment;
+    public int Moviment;
 
     // information for internal use
     public bool SelectedUnit = false;
@@ -21,7 +23,9 @@ public class Unit_Control : MonoBehaviour
     public Selected_Tile activetile;
 
     void Awake() {
+        AwakeUnit();
         CurrentHP = MaxHP;
+        Moviment = MaxMoviment;
     }
 
     // Start is called before the first frame update
@@ -79,5 +83,10 @@ public class Unit_Control : MonoBehaviour
         Debug.Log(unit.Damage);
         Debug.Log(unit.Type);
         Debug.Log(unit.Habilities);
+    }
+    // give the right stats/skills and images for the unit
+    private void AwakeUnit() 
+    {
+
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public enum battlestate {START, PLAYERTURN, ENEMYTURN, WON, LOST}
+public enum battlestate {START, PLAYERTURN, ENDTURN, ENEMYTURN, WON, LOST}
 
 public class Battle_System : MonoBehaviour
 {
@@ -58,7 +58,11 @@ public class Battle_System : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(State == battlestate.ENDTURN)
+        {
+            EndTurn();
+            State = battlestate.PLAYERTURN;
+        }
     }
 
     public Unit_Control GetSelectedUnit(GameObject AllyUnits, GameObject EnemyUnits)
@@ -83,5 +87,15 @@ public class Battle_System : MonoBehaviour
             }
         }
         return null;
+    }
+
+    private void EndTurn()
+    {
+        Unit_Control[] units = AllyUnits.GetComponentsInChildren<Unit_Control>();
+
+        foreach(var unit in units)
+        {
+            unit.Moviment = unit.MaxMoviment;
+        }
     }
 }
