@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3458934340320149986}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.51, y: 2.06, z: 1}
+  m_LocalPosition: {x: -2.01, y: 1.81, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51,14 +51,17 @@ MonoBehaviour:
   CurrentHP: 0
   Damage: 1
   Type: Slime
-  Habilities:
-  - 
+  Habilities: []
   MaxMoviment: 6
   Moviment: 4
   SelectedUnit: 0
   Hover: 0
   ally: 0
   activetile: {fileID: 9084810720806035501, guid: 6a2097aee1c96844fa41792f2b0bf13a, type: 3}
+  Sprites:
+  - {fileID: 21300000, guid: 8cb252a7c98f37d4bb90795ff679c801, type: 3}
+  - {fileID: 21300000, guid: aeb7e285e480d2a41875f3d565088169, type: 3}
+  ID: 1
 --- !u!212 &3294508743680574326
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -100,7 +103,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 8cb252a7c98f37d4bb90795ff679c801, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -108,7 +111,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &9157318358790219013

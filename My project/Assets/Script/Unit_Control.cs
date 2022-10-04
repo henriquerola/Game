@@ -20,18 +20,17 @@ public class Unit_Control : MonoBehaviour
     public bool SelectedUnit = false;
     public bool Hover = false;
     public bool ally = false;
-    public Selected_Tile activetile;
 
-    void Awake() {
-        AwakeUnit();
-        CurrentHP = MaxHP;
-        Moviment = MaxMoviment;
-    }
+    public Selected_Tile activetile;
+    public List<Sprite> Sprites;
+    public int ID = 1;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        AwakeUnit();
+        CurrentHP = MaxHP;
+        Moviment = MaxMoviment;
     }
 
     // Update is called once per frame
@@ -87,6 +86,14 @@ public class Unit_Control : MonoBehaviour
     // give the right stats/skills and images for the unit
     private void AwakeUnit() 
     {
-
+        Units_Info units = new Units_Info();
+        SpriteRenderer image = GetComponent<SpriteRenderer>();
+        image.sprite = Sprites[ID];
+        Name = units.Name[ID];
+        MaxHP = units.MaxHP[ID];
+        Damage = units.Damage[ID];
+        Type = units.Type[ID];
+        MaxMoviment = units.MaxMoviment[ID];
+        // Habilities = unit.Habilities[ID];
     }
 }
