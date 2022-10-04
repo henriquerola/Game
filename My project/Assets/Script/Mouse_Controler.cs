@@ -12,6 +12,7 @@ public class Mouse_Controler : MonoBehaviour
     public float Speed = 1;
     private List<Selected_Tile> path = new List<Selected_Tile>();
     private List<Selected_Tile> inrangetiles = new List<Selected_Tile>();
+    private List<Selected_Tile> inattackrange = new List<Selected_Tile>();
 
     private Path_Finder pathfinder;
     private Range_Finder rangefinder;
@@ -34,7 +35,17 @@ public class Mouse_Controler : MonoBehaviour
 
         if(selectedunit != null)
         {
+            
             GetInRangeTiles(selectedunit);
+            if(selectedunit.ally)  // unit basic attack 
+            {
+                if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) 
+                {
+                    Debug.Log("unit attack selected");
+                    GetAttackRange(selectedunit);
+                    selectedunit.Attack = !selectedunit.Attack;
+                }
+            }
         } 
 
         if(focusontilehit.HasValue) { // verifica se esta em cima de um tile 
@@ -148,6 +159,21 @@ public class Mouse_Controler : MonoBehaviour
         foreach (var tile in inrangetiles)
         {
             tile.showtile();
+        }
+    }
+
+    public void GetAttackRange(Unit_Control unit)
+    {
+        foreach (var tile in inattackrange)
+        {
+            tile.hidetile();
+        } 
+
+        inattackrange = rangefinder.GetTilesInRange(unit.activetile, unit.Moviment);
+
+        foreach (var tile in inattackrange)
+        {
+            tile.showattacktile();
         }
     }
 }

@@ -12,7 +12,7 @@ public class Unit_Control : MonoBehaviour
     public int CurrentHP;
     public int Damage;
     public string Type;
-    public List<string> Habilities;
+    public string Habilities;
     public int MaxMoviment;
     public int Moviment;
 
@@ -20,6 +20,7 @@ public class Unit_Control : MonoBehaviour
     public bool SelectedUnit = false;
     public bool Hover = false;
     public bool ally = false;
+    public bool Attack = false;
 
     public Selected_Tile activetile;
     public List<Sprite> Sprites;
@@ -94,6 +95,6 @@ public class Unit_Control : MonoBehaviour
         Damage = units.Damage[ID];
         Type = units.Type[ID];
         MaxMoviment = units.MaxMoviment[ID];
-        // Habilities = unit.Habilities[ID];
+        Habilities = units.Habilities[ID];
     }
 }

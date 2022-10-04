@@ -22,8 +22,9 @@ public class Units_Info
         "Slime",
         "Slime"
     };
-    public List<string>[] Habilities = {
-        
+    public string[] Habilities = {
+        "BasicAttack",
+        "BasicAttack"
     };
     public int[] MaxMoviment = {
         6,

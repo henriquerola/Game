@@ -28,6 +28,10 @@ public class Selected_Tile : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0.5f);
     }
 
+    public void showattacktile() {
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1,0,0,0.5f);
+    }
+
     public void hidetile() {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
         SetArrowSprite(ArrowDirection.None);
