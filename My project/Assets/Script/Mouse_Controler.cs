@@ -16,6 +16,7 @@ public class Mouse_Controler : MonoBehaviour
 
     private Path_Finder pathfinder;
     private Range_Finder rangefinder;
+    private Attack_Finder attackfinder;
     private ArrowTranslator arrowtranslator;
 
     public Unit_Control selectedunit;
@@ -27,6 +28,7 @@ public class Mouse_Controler : MonoBehaviour
         pathfinder = new Path_Finder();
         rangefinder = new Range_Finder();
         arrowtranslator = new ArrowTranslator();
+        attackfinder = new Attack_Finder();
     }
 
     // Start is called before the first frame update
@@ -35,27 +37,30 @@ public class Mouse_Controler : MonoBehaviour
 
         if(selectedunit != null)
         {
-            
             GetInRangeTiles(selectedunit);
             if(selectedunit.ally)  // unit basic attack 
             {
                 if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) 
                 {
                     Debug.Log("unit attack selected");
-                    GetAttackRange(selectedunit);
                     selectedunit.Attack = !selectedunit.Attack;
                 }
             }
+            if(selectedunit.Attack)
+            {
+                inattackrange = attackfinder.BasicAttack(selectedunit.activetile, selectedunit.Range);
+                GetAttackRange(selectedunit);
+            }
         } 
-
+        
         if(focusontilehit.HasValue) { // verifica se esta em cima de um tile 
 
             Selected_Tile selectedtile = focusontilehit.Value.collider.gameObject.GetComponent<Selected_Tile>(); //pega aonde esta esse tile
-            transform.position = selectedtile.transform.position; // coloca o mous no lugar certo
+            transform.position = selectedtile.transform.position; // coloca o mouse no lugar certo
 
             if(inrangetiles.Contains(selectedtile) && !ismoving)
             {
-                if(selectedunit != null && selectedunit.ally)
+                if(selectedunit != null && selectedunit.ally && !selectedunit.Attack)
                 {
                     path = pathfinder.FindPath(selectedunit.activetile ,selectedtile, inrangetiles);
 
@@ -77,10 +82,14 @@ public class Mouse_Controler : MonoBehaviour
 
                 if(selectedunit != null)  // se uma unidade esta selecionada
                 {
-                    if(selectedunit.ally && inrangetiles.Contains(selectedtile) && !selectedtile.Hasunit) // se é um movimento valido
+                    if(selectedunit.ally && inrangetiles.Contains(selectedtile) && !selectedtile.Hasunit && !selectedunit.Attack) // se é um movimento valido
                     {
                         ismoving = true;
                         selectedunit.Moviment -= path.Count;
+                    }
+                    if(selectedunit.ally && inattackrange.Contains(selectedtile) && selectedunit.Attack) // se é um ataque válido
+                    {
+                        Debug.Log("Valid Attack");
                     }
                 }
             }
@@ -169,8 +178,8 @@ public class Mouse_Controler : MonoBehaviour
             tile.hidetile();
         } 
 
-        inattackrange = rangefinder.GetTilesInRange(unit.activetile, unit.Moviment);
-
+        inattackrange = rangefinder.GetTilesInRange(unit.activetile, unit.Range);
+        
         foreach (var tile in inattackrange)
         {
             tile.showattacktile();

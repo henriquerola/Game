@@ -23,6 +23,10 @@ public class Selected_Tile : MonoBehaviour
     private void Start() {
         hidetile();
     }
+
+    private void Update() {
+        hidetile();
+    }
     
     public void showtile() {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0.5f);

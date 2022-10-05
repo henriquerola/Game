@@ -11,6 +11,7 @@ public class Unit_Control : MonoBehaviour
     public int MaxHP;
     public int CurrentHP;
     public int Damage;
+    public int Range;
     public string Type;
     public string Habilities;
     public int MaxMoviment;
@@ -32,6 +33,7 @@ public class Unit_Control : MonoBehaviour
         AwakeUnit();
         CurrentHP = MaxHP;
         Moviment = MaxMoviment;
+        Attack = false;
     }
 
     // Update is called once per frame
@@ -93,6 +95,7 @@ public class Unit_Control : MonoBehaviour
         Name = units.Name[ID];
         MaxHP = units.MaxHP[ID];
         Damage = units.Damage[ID];
+        Range = units.Range[ID];
         Type = units.Type[ID];
         MaxMoviment = units.MaxMoviment[ID];
         Habilities = units.Habilities[ID];

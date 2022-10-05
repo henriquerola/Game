@@ -18,6 +18,10 @@ public class Units_Info
         1,
         1
     };
+    public int[] Range = {
+        1,
+        1
+    };
     public string[] Type = {
         "Slime",
         "Slime"
