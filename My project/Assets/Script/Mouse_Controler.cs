@@ -40,18 +40,17 @@ public class Mouse_Controler : MonoBehaviour
             GetInRangeTiles(selectedunit);
             if(selectedunit.ally)  // unit basic attack 
             {
-                if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) 
+                if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) // attack mode
                 {
-                    Debug.Log("unit attack selected");
                     selectedunit.Attack = !selectedunit.Attack;
                 }
             }
-            if(selectedunit.Attack)
+            if(selectedunit.Attack) // display attack
             {
-                inattackrange = attackfinder.BasicAttack(selectedunit.activetile, selectedunit.Range);
+                inattackrange = attackfinder.BasicAttack(selectedunit, 1);
                 GetAttackRange(selectedunit);
             }
-        } 
+        }
         
         if(focusontilehit.HasValue) { // verifica se esta em cima de um tile 
 
@@ -90,6 +89,7 @@ public class Mouse_Controler : MonoBehaviour
                     if(selectedunit.ally && inattackrange.Contains(selectedtile) && selectedunit.Attack) // se é um ataque válido
                     {
                         Debug.Log("Valid Attack");
+                        attackfinder.AttackAction(selectedunit, selectedtile);
                     }
                 }
             }
