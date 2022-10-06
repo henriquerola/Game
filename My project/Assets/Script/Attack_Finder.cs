@@ -33,6 +33,7 @@ public class Attack_Finder
                 tilepriviousstep = surroundingtiles.Distinct().ToList(); // add alll tiles from last step
                 stepcount++;
             }
+            inrangetiles.Remove(unit.activetile);
             return inrangetiles.Distinct().ToList();
         }
         return null;
@@ -45,9 +46,22 @@ public class Attack_Finder
 
     public void AttackAction(Unit_Control unit, Selected_Tile targettile) // attack process
     {
-        AttackAnimation();
+        Map_Manager map_manager = GameObject.Find("Grid").GetComponentInChildren<Map_Manager>();
+        var groundtile = GameObject.Find("Grid").GetComponentInChildren<Tilemap>();
+
         if(targettile.Hasunit)
         {
+            var target = map_manager.GetUnit(targettile.gridlocation, groundtile);
+
+            if(target != null)
+            {
+                Unit_Control targetunit = target.GetComponent<Unit_Control>();
+                if(!targetunit.ally) // attack
+                {
+                    AttackAnimation();
+                    targetunit.CurrentHP -= unit.Damage;
+                }
+            }
             // process attack
         }
     }

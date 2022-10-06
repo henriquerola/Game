@@ -178,7 +178,7 @@ public class Mouse_Controler : MonoBehaviour
             tile.hidetile();
         } 
 
-        inattackrange = rangefinder.GetTilesInRange(unit.activetile, unit.Range);
+        inattackrange = attackfinder.BasicAttack(unit, 1);
         
         foreach (var tile in inattackrange)
         {

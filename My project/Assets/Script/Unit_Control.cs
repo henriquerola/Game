@@ -38,6 +38,7 @@ public class Unit_Control : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
+        CheckCondition();
         if(this.transform.parent.name == "AllyUnits") {
             this.ally = true;
         }
@@ -99,5 +100,13 @@ public class Unit_Control : MonoBehaviour
         Type = units.Type[ID];
         MaxMoviment = units.MaxMoviment[ID];
         Habilities = units.Habilities[ID];
+    }
+
+    private void CheckCondition()
+    {
+        if(this.CurrentHP <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
