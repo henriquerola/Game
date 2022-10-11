@@ -26,10 +26,9 @@ public class Units_Info
         "Slime",
         "Slime"
     };
-    public string[] Habilities = {
-        "BasicAttack",
-        "BasicAttack"
-    };
+
+    public string[,] Habilities = new string[2,2]{ {"BasicAttack","XAttack"}, {"BasicAttack","YAttack"} };  
+
     public int[] MaxMoviment = {
         6,
         6

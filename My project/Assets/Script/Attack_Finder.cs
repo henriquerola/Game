@@ -6,9 +6,9 @@ using UnityEngine.Tilemaps;
 
 public class Attack_Finder
 {
-    public List<Selected_Tile> BasicAttack(Unit_Control unit, int ID)  //hits 1 tile in unit.Range (all directions)
+    public List<Selected_Tile> BasicAttack(Unit_Control unit, int ID, int index = 0)  //hits 1 tile in unit.Range (all directions)
     {
-        if(unit.Habilities == "BasicAttack")
+        if(unit.Habilities[index] == "BasicAttack")
         {
             Map_Manager map_manager = GameObject.Find("Grid").GetComponentInChildren<Map_Manager>();
 
@@ -36,11 +36,13 @@ public class Attack_Finder
             inrangetiles.Remove(unit.activetile);
             return inrangetiles.Distinct().ToList();
         }
-        return null;
-    }
 
-    public List<Selected_Tile> XRange(Unit_Control unit) // function to pick diferent shapes of attack
-    {
+        if(unit.Habilities[index] == "YAttack")
+        {
+            var inrangetiles = new List<Selected_Tile>();
+            Debug.Log("YAttack");
+            return inrangetiles.Distinct().ToList();
+        }
         return null;
     }
 

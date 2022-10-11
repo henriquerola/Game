@@ -22,6 +22,7 @@ public class Mouse_Controler : MonoBehaviour
     public Unit_Control selectedunit;
 
     private bool ismoving = false;
+    private int HabID = 0;
 
     private void Start() 
     {
@@ -43,11 +44,17 @@ public class Mouse_Controler : MonoBehaviour
                 if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) // attack mode
                 {
                     selectedunit.Attack = !selectedunit.Attack;
+                    HabID = 0;
+                }
+                if(Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) // attack mode
+                {
+                    selectedunit.Attack = !selectedunit.Attack;
+                    HabID = 1;
                 }
             }
             if(selectedunit.Attack) // display attack
             {
-                inattackrange = attackfinder.BasicAttack(selectedunit, 1);
+                inattackrange = attackfinder.BasicAttack(selectedunit, 1, HabID);
                 GetAttackRange(selectedunit);
             }
         }

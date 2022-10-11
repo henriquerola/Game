@@ -13,7 +13,7 @@ public class Unit_Control : MonoBehaviour
     public int Damage;
     public int Range;
     public string Type;
-    public string Habilities;
+    public List<string> Habilities;
     public int MaxMoviment;
     public int Moviment;
 
@@ -90,6 +90,7 @@ public class Unit_Control : MonoBehaviour
     // give the right stats/skills and images for the unit
     private void AwakeUnit() 
     {
+
         Units_Info units = new Units_Info();
         SpriteRenderer image = GetComponent<SpriteRenderer>();
         image.sprite = Sprites[ID];
@@ -99,7 +100,10 @@ public class Unit_Control : MonoBehaviour
         Range = units.Range[ID];
         Type = units.Type[ID];
         MaxMoviment = units.MaxMoviment[ID];
-        Habilities = units.Habilities[ID];
+        for(int i = 0; i < 2; i++)
+        {
+            Habilities.Add(units.Habilities[ID,i]);
+        }
     }
 
     private void CheckCondition()
