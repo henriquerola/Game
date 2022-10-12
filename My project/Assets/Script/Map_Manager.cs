@@ -214,4 +214,21 @@ public class Map_Manager : MonoBehaviour
         return neighbors;
     }
 
+    public List<Selected_Tile> GetLineTiles(Selected_Tile Currenttile, int x, int y) // get all tiles in a straight line
+    {
+        var groundtile = gameObject.GetComponentInChildren<Tilemap>(); //tilemap
+
+        var linetiles = new List<Selected_Tile>();
+
+        int xs = Currenttile.gridlocation.x;
+        int ys = Currenttile.gridlocation.y;
+        var tileposition = new Vector3Int(xs + x, ys + y, 0);
+
+        while(groundtile.HasTile(tileposition)) // has tile in position
+        {
+            linetiles.Add(GetTileObject(tileposition, groundtile));
+            tileposition = new Vector3Int(tileposition.x + x, tileposition.y + y, 0);
+        }
+        return linetiles;
+    }
 }

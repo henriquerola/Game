@@ -28,6 +28,16 @@ public class UI_Managment : MonoBehaviour
                         var battlesystem = GameObject.Find("BattleSystem").GetComponent<Battle_System>();
                         battlesystem.State = battlestate.ENDTURN;
                     }
+
+                    if (hits[i].collider.gameObject.name == "UIHab1")
+                    {
+                        Debug.Log("hab1");
+                    }
+
+                    if (hits[i].collider.gameObject.name == "UIHab2")
+                    {
+                        Debug.Log("hab2");
+                    }
                 }
             }
         }

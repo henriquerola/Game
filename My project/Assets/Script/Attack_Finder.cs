@@ -39,11 +39,40 @@ public class Attack_Finder
 
         if(unit.Habilities[index] == "YAttack")
         {
+            Map_Manager map_manager = GameObject.Find("Grid").GetComponentInChildren<Map_Manager>();
             var inrangetiles = new List<Selected_Tile>();
-            Debug.Log("YAttack");
+
+            var startingtiles = map_manager.GetNeighborTiles(unit.activetile, new List<Selected_Tile>()); //tiles where the attack start
+            inrangetiles.AddRange(startingtiles);
+            foreach(var tile in startingtiles)
+            {
+                if(unit.activetile.transform.position.x + 0.5 == tile.transform.position.x)
+                {
+                    if(unit.activetile.transform.position.y  + 0.25 == tile.transform.position.y) // right
+                    {
+                        inrangetiles.AddRange(map_manager.GetLineTiles(tile, 1, 0));
+                    }
+                    else // down
+                    {
+                        inrangetiles.AddRange(map_manager.GetLineTiles(tile, 0, -1));
+                    }
+                }
+                else if(unit.activetile.transform.position.x - 0.5 == tile.transform.position.x)
+                {
+                    if(unit.activetile.transform.position.y  + 0.25 == tile.transform.position.y) // up
+                    {
+                        inrangetiles.AddRange(map_manager.GetLineTiles(tile, 0, 1));
+                    }
+                    else
+                    {
+                        inrangetiles.AddRange(map_manager.GetLineTiles(tile, -1, 0)); // left
+                    }
+                }
+            }
+            
             return inrangetiles.Distinct().ToList();
         }
-        return null;
+        return new List<Selected_Tile>();
     }
 
     public void AttackAction(Unit_Control unit, Selected_Tile targettile) // attack process
