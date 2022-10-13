@@ -61,7 +61,16 @@ public class Battle_System : MonoBehaviour
         if(State == battlestate.ENDTURN)
         {
             EndTurn();
-            State = battlestate.PLAYERTURN;
+            State = battlestate.ENEMYTURN;
+        }
+        if(State == battlestate.ENEMYTURN)
+        {
+            var cursor = GameObject.Find("Cursor").GetComponent<Mouse_Controler>();
+            if(!cursor.ismoving)
+            {
+            cursor.selectedunit = null;
+            cursor.enabled = false;
+            }
         }
     }
 

@@ -55,10 +55,12 @@ public class Unit_Control : MonoBehaviour
         }
 
         if(Input.GetMouseButtonDown(0)) { //seleciona a unidade q ta em cima do mouse
+            var cursor = GameObject.Find("Cursor").GetComponent<Mouse_Controler>();
+            var focusontilehit = cursor.focusontile();
             if(Hover) { 
                 SelectedUnit = true;
                 //GetUnitStats(this);
-            } else {
+            } else if(focusontilehit.HasValue){
                 SelectedUnit = false;
             }
         }

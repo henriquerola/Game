@@ -21,8 +21,8 @@ public class Mouse_Controler : MonoBehaviour
 
     public Unit_Control selectedunit;
 
-    private bool ismoving = false;
-    private int HabID = 0;
+    public bool ismoving = false;
+    public int HabID = 0;
 
     private void Start() 
     {
