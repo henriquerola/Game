@@ -22,14 +22,24 @@ public class Unit_Control : MonoBehaviour
     public bool Hover = false;
     public bool ally = false;
     public bool Attack = false;
+    public string Behaviour;
 
     public Selected_Tile activetile;
     public List<Sprite> Sprites;
-    public int ID = 1;
+    public int ID;
 
     // Start is called before the first frame update
     void Start()
     {
+        if(this.transform.parent.name == "AllyUnits") { // if mind control exists put this in update
+            this.ally = true;
+            ID = 1;
+        }
+        if(this.transform.parent.name == "EnemyUnits") {
+            this.ally = false;
+            ID = 0;
+        }
+
         AwakeUnit();
         CurrentHP = MaxHP;
         Moviment = MaxMoviment;
@@ -39,12 +49,6 @@ public class Unit_Control : MonoBehaviour
     // Update is called once per frame
     void Update() {
         CheckCondition();
-        if(this.transform.parent.name == "AllyUnits") {
-            this.ally = true;
-        }
-        if(this.transform.parent.name == "EnemyUnits") {
-            this.ally = false;
-        }
         
         if(Hover) { // deixar brilhante ou mostrar informções basicas aqui
         
@@ -105,6 +109,10 @@ public class Unit_Control : MonoBehaviour
         for(int i = 0; i < 2; i++)
         {
             Habilities.Add(units.Habilities[ID,i]);
+        }
+        if(!ally)
+        {
+            Behaviour = units.Behaviour[ID];
         }
     }
 

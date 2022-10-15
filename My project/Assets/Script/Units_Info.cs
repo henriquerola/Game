@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Units_Info
 {
-
+    // in order 
     public string[] Name = {
         "BlueSlime",
         "GreenSlime"
@@ -26,11 +26,14 @@ public class Units_Info
         "Slime",
         "Slime"
     };
-
-    public string[,] Habilities = new string[2,2]{ {"BasicAttack","XAttack"}, {"BasicAttack","YAttack"} };  
-
     public int[] MaxMoviment = {
         6,
         6
     };
+    public string[] Behaviour = {
+        "Brute",
+        "Coward"
+    };
+    // not in order
+    public string[,] Habilities = new string[2,2]{ {"BasicAttack","XAttack"}, {"BasicAttack","YAttack"} };  
 }

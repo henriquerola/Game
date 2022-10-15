@@ -15,6 +15,8 @@ public class Battle_System : MonoBehaviour
 
     public Tilemap ground; // conectado na grid, logo in children vai pegar ground como var
 
+    private Unit_Behaiviours unitbehaiviours;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,9 +45,10 @@ public class Battle_System : MonoBehaviour
                         Unitprefab.transform.position = new Vector3(cellpos.x,cellpos.y,cellpos.z+1); 
                         int rand = Random.Range(0,2);
                         if(rand == 1) {
-                            unit= Instantiate(Unitprefab, EnemyUnits.transform).GetComponent<Unit_Control>();
+                            unit = Instantiate(Unitprefab, EnemyUnits.transform).GetComponent<Unit_Control>();
                         } else {
                             unit = Instantiate(Unitprefab, AllyUnits.transform).GetComponent<Unit_Control>();
+
                         }
                     } 
                 }
@@ -65,12 +68,19 @@ public class Battle_System : MonoBehaviour
         }
         if(State == battlestate.ENEMYTURN)
         {
+            Unit_Control[] units = EnemyUnits.GetComponentsInChildren<Unit_Control>();
+            foreach(var unit in units) // execute ai behaivour for each unit
+            {
+                EnemyAction(unit);
+            }
             var cursor = GameObject.Find("Cursor").GetComponent<Mouse_Controler>();
             if(!cursor.ismoving)
             {
             cursor.selectedunit = null;
             cursor.enabled = false;
             }
+            State = battlestate.PLAYERTURN;
+            cursor.enabled = true;
         }
     }
 
@@ -106,5 +116,11 @@ public class Battle_System : MonoBehaviour
         {
             unit.Moviment = unit.MaxMoviment;
         }
+    }
+
+    private void EnemyAction(Unit_Control unit) // TODO: menemy moviment and action.
+    {
+        unitbehaiviours = new Unit_Behaiviours();
+        unitbehaiviours.EnemyMoviment(unit);
     }
 }
