@@ -40,7 +40,7 @@ public class Battle_System : MonoBehaviour
                 if(ground.HasTile(tilelocation)) {
                     int randnum = Random.Range(1,max_enemies); // por enquanto  é random pra testar as unidades
 
-                    if(randnum <= 5) {
+                    if(randnum <= 2) {
                         var cellpos = ground.GetCellCenterWorld(tilelocation); //localizacao como cell e nao pos
                         Unitprefab.transform.position = new Vector3(cellpos.x,cellpos.y,cellpos.z+1); 
                         int rand = Random.Range(0,2);
@@ -50,9 +50,8 @@ public class Battle_System : MonoBehaviour
                             unit = Instantiate(Unitprefab, AllyUnits.transform).GetComponent<Unit_Control>();
 
                         }
-                    } 
+                    }
                 }
-
             }
         }
         State = battlestate.PLAYERTURN;
@@ -76,8 +75,8 @@ public class Battle_System : MonoBehaviour
             var cursor = GameObject.Find("Cursor").GetComponent<Mouse_Controler>();
             if(!cursor.ismoving)
             {
-            cursor.selectedunit = null;
-            cursor.enabled = false;
+                cursor.selectedunit = null;
+                cursor.enabled = false;
             }
             State = battlestate.PLAYERTURN;
             cursor.enabled = true;

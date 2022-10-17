@@ -10,7 +10,7 @@ public class Mouse_Controler : MonoBehaviour
     [SerializeField] private Camera mainCamera; //just so i can chosse wich camera
 
     public float Speed = 1;
-    private List<Selected_Tile> path = new List<Selected_Tile>();
+    public List<Selected_Tile> path = new List<Selected_Tile>();
     private List<Selected_Tile> inrangetiles = new List<Selected_Tile>();
     private List<Selected_Tile> inattackrange = new List<Selected_Tile>();
 
@@ -135,10 +135,9 @@ public class Mouse_Controler : MonoBehaviour
         return null;
     }
 
-    private void MoveAlongPath(Unit_Control unit)
+    public void MoveAlongPath(Unit_Control unit)
     {
         var step = Speed * Time.deltaTime;
-
         var zindex = path[0].transform.position.z; // preserve z position since we will be using vector2 to change the unit position z= 0
         unit.transform.position = Vector2.MoveTowards(unit.transform.position, path[0].transform.position, step);
         unit.transform.position = new Vector3(unit.transform.position.x, unit.transform.position.y, zindex);
@@ -154,7 +153,6 @@ public class Mouse_Controler : MonoBehaviour
             GetInRangeTiles(unit);
             ismoving = false;
         }
-        
     }
     // put unit pos = to tile pos and unit.activetile
     public void PositionUnitOnTile(Unit_Control unit, Selected_Tile tile)
