@@ -116,7 +116,7 @@ public class Unit_Control : MonoBehaviour
         }
     }
 
-    private void CheckCondition()
+    private void CheckCondition() // check conditions (death, poison, fire)
     {
         if(this.CurrentHP <= 0)
         {

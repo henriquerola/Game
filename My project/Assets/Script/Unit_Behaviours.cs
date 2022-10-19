@@ -23,6 +23,43 @@ public class Unit_Behaiviours
         if (unit.Behaviour == "Brute") // brute behaviour
         {
             var target = ClosestTarget(unit);
+
+            if(target != null)
+            {
+                var cursor = GameObject.Find("Cursor").GetComponent<Mouse_Controler>(); 
+                pathfinder = new Path_Finder();
+                rangefinder = new Range_Finder();
+
+                var attacktiles = rangefinder.GetTilesInRange(target.activetile, 1); // get closest tiles
+                List<Selected_Tile> bestpath = new List<Selected_Tile>();
+                int bestmoviment = 1000;
+                foreach (var tile in attacktiles)
+                {
+                    if(!tile.Hasunit && inrangetiles.Contains(tile))
+                    {
+                        var Distance = pathfinder.FindPath(unit.activetile, tile, inrangetiles);
+                        if(Distance.Count < bestmoviment && Distance.Count != 0)
+                        {
+                            bestmoviment = Distance.Count;
+                            bestpath = Distance;
+                        }
+                    }
+                }
+                if(bestmoviment != 1000) // check best path
+                {
+                    cursor.path = bestpath;
+                    while(cursor.path.Count > 0)
+                    {
+                        if(cursor.path.Count == 1)
+                        {
+                            cursor.path[0].Hasunit = true;
+                        }
+                        cursor.MoveAlongPath(unit);
+                    }
+
+                }
+            }
+            AttackEnemy(unit,target);
         }
     }
 
@@ -38,45 +75,92 @@ public class Unit_Behaiviours
             rangefinder = new Range_Finder();
 
             unit.Moviment += 1; // get units that are 1 away from moviment range
-            Debug.Log(unit.Moviment);
             inrangetiles = rangefinder.GetTilesInRange(unit.activetile, unit.Moviment);
-            //; unit.Moviment -= 6; // reset moviment range
+            unit.Moviment -= 1;
 
-            var besttarget = new Unit_Control();  // PROBLEMA
+            var besttarget = new Unit_Control();
             var bestvalue = -1;
             foreach (var tiles in inrangetiles) // look at all possible moviments
             {
-                if (tiles.Hasunit) // TODO: ve se tem uma unidade, e aliada e pega a distancia dela pra unidade principal, devolve o path pra unidade mais perto
+                if (tiles.Hasunit)
                 {
                     var a = map_manager.GetUnit(tiles.gridlocation, groundtile);
-                    var targetobject = a.GetComponent<Unit_Control>();
-                    if (targetobject.ally) // is an player unit
+                    if(a != null)
                     {
+                        var targetobject = a.GetComponent<Unit_Control>();
 
-                        List<Selected_Tile> Distance = pathfinder.FindPath(unit.activetile, tiles, inrangetiles);
-                        var value = unit.Moviment - Distance.Count; // menor distancia == moviment - distancia dela pra unidade  
-
-                        if (value > bestvalue)
+                        if (targetobject.ally) // is an player unit
                         {
-                            besttarget = targetobject;
-                            bestvalue = value;
+        
+                            List<Selected_Tile> Distance = pathfinder.FindPath(unit.activetile, tiles, inrangetiles);
+                            var value = unit.Moviment - Distance.Count; // menor distancia == moviment - distancia dela pra unidade 
+                            if (value > bestvalue)
+                            {
+                                besttarget = targetobject;
+                                bestvalue = value;
+                            }
                         }
                     }
                 }
             }
-            if (bestvalue >= 0 ) // attack
+            if (bestvalue >= 0 )
             {
-                path = pathfinder.FindPath(unit.activetile, besttarget.activetile, inrangetiles);
-                path.RemoveAt(path.Count - 1);
-                cursor.path = path;
-                unit.Moviment -= 1;
-                Debug.Log(path.Count); 
-                while (path.Count > 0)
+                return besttarget;
+            } else
+            {
+                inrangetiles = rangefinder.GetTilesInRange(unit.activetile, 100);
+                besttarget = new Unit_Control();
+                bestvalue = -1;
+                foreach (var tiles in inrangetiles) // look at all possible moviments
                 {
-                    cursor.MoveAlongPath(unit);
+                    if (tiles.Hasunit)
+                    {
+                        var a = map_manager.GetUnit(tiles.gridlocation, groundtile);
+                        if(a != null)
+                        {
+                            var targetobject = a.GetComponent<Unit_Control>();
+
+                            if (targetobject.ally) // is an player unit
+                            {
+            
+                                List<Selected_Tile> Distance = pathfinder.FindPath(unit.activetile, tiles, inrangetiles);
+                                var value = unit.Moviment - Distance.Count; // menor distancia == moviment - distancia dela pra unidade 
+                                if (value > bestvalue)
+                                {
+                                    besttarget = targetobject;
+                                    bestvalue = value;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (bestvalue >= 0 )
+                {
+                    return besttarget;
                 }
             }
         }
         return null;
+    }
+
+    public List<Selected_Tile> FindMovimentPath(Unit_Control unit, Unit_Control target) // put find moviments in here
+    {
+        return new List<Selected_Tile>();
+    }
+
+    private void AttackEnemy(Unit_Control unit, Unit_Control target)
+    {
+        if(unit.Behaviour == "Brute")
+        {
+            attackfinder = new Attack_Finder();
+            inattackrange = attackfinder.BasicAttack(unit, unit.ID);
+            if(unit != null && target != null)
+            {
+                if(inattackrange.Contains(target.activetile))
+                {
+                    attackfinder.AttackAction(unit, target.activetile);
+                }
+            }
+        }
     }
 }

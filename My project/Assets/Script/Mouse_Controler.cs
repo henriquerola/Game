@@ -34,86 +34,96 @@ public class Mouse_Controler : MonoBehaviour
 
     // Start is called before the first frame update
     private void LateUpdate() {
+        var battlesystem = GameObject.Find("BattleSystem").GetComponent<Battle_System>();
         var focusontilehit = focusontile();
-
-        if(selectedunit != null)
+        if(battlesystem.State == battlestate.PLAYERTURN) // player turn
         {
-            GetInRangeTiles(selectedunit);
-            if(selectedunit.ally)  // unit basic attack 
+            if(selectedunit != null)
             {
-                if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) // attack mode
+                GetInRangeTiles(selectedunit);
+                if(selectedunit.ally)  // unit basic attack 
                 {
-                    selectedunit.Attack = !selectedunit.Attack;
-                    HabID = 0;
+                    if(Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) // attack mode
+                    {
+                        selectedunit.Attack = !selectedunit.Attack;
+                        HabID = 0;
+                    }
+                    if(Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) // attack mode
+                    {
+                        selectedunit.Attack = !selectedunit.Attack;
+                        HabID = 1;
+                    }
                 }
-                if(Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) // attack mode
+                if(selectedunit.Attack) // display attack
                 {
-                    selectedunit.Attack = !selectedunit.Attack;
-                    HabID = 1;
+                    inattackrange = attackfinder.BasicAttack(selectedunit, 1, HabID);
+                    GetAttackRange(selectedunit);
                 }
             }
-            if(selectedunit.Attack) // display attack
+            
+            if(focusontilehit.HasValue) { // verifica se esta em cima de um tile 
+
+                Selected_Tile selectedtile = focusontilehit.Value.collider.gameObject.GetComponent<Selected_Tile>(); //pega aonde esta esse tile
+                transform.position = selectedtile.transform.position; // coloca o mouse no lugar certo
+
+                if(inrangetiles.Contains(selectedtile) && !ismoving)
+                {
+                    if(selectedunit != null && selectedunit.ally && !selectedunit.Attack)
+                    {
+                        path = pathfinder.FindPath(selectedunit.activetile ,selectedtile, inrangetiles);
+
+                        foreach (var tile in inrangetiles) // hide arrows
+                        {
+                            tile.SetArrowSprite(ArrowDirection.None);
+                        }
+                        for (int i = 0; i < path.Count; i++) // show arrows
+                        {
+                            var previoustile = i > 0 ? path[i - 1] : selectedunit.activetile;
+                            var futuretile = i < path.Count - 1? path[i + 1] : null;
+                            var arrowdir = arrowtranslator.TranslateDirection(previoustile, path[i], futuretile);
+                            path[i].SetArrowSprite(arrowdir);
+                        }
+                    }
+                }
+
+                if(Input.GetMouseButtonDown(0)) {
+
+                    if(selectedunit != null)  // se uma unidade esta selecionada
+                    {
+                        if(selectedunit.ally && inrangetiles.Contains(selectedtile) && !selectedtile.Hasunit && !selectedunit.Attack) // se é um movimento valido
+                        {
+                            ismoving = true;
+                            
+                        }
+                        if(selectedunit.ally && inattackrange.Contains(selectedtile) && selectedunit.Attack) // se é um ataque válido
+                        {
+                            Debug.Log("Valid Attack");
+                            attackfinder.AttackAction(selectedunit, selectedtile);
+                        }
+                    }
+                }
+            }
+
+            if(path.Count > 0 && ismoving)
             {
-                inattackrange = attackfinder.BasicAttack(selectedunit, 1, HabID);
-                GetAttackRange(selectedunit);
-            }
-        }
-        
-        if(focusontilehit.HasValue) { // verifica se esta em cima de um tile 
+                MoveAlongPath(selectedunit);
+                if(path.Count == 0)
+                {
+                    selectedunit.SelectedUnit = true;
+                }
 
-            Selected_Tile selectedtile = focusontilehit.Value.collider.gameObject.GetComponent<Selected_Tile>(); //pega aonde esta esse tile
-            transform.position = selectedtile.transform.position; // coloca o mouse no lugar certo
-
-            if(inrangetiles.Contains(selectedtile) && !ismoving)
+            } else
             {
-                if(selectedunit != null && selectedunit.ally && !selectedunit.Attack)
-                {
-                    path = pathfinder.FindPath(selectedunit.activetile ,selectedtile, inrangetiles);
-
-                    foreach (var tile in inrangetiles) // hide arrows
-                    {
-                        tile.SetArrowSprite(ArrowDirection.None);
-                    }
-                    for (int i = 0; i < path.Count; i++) // show arrows
-                    {
-                        var previoustile = i > 0 ? path[i - 1] : selectedunit.activetile;
-                        var futuretile = i < path.Count - 1? path[i + 1] : null;
-                        var arrowdir = arrowtranslator.TranslateDirection(previoustile, path[i], futuretile);
-                        path[i].SetArrowSprite(arrowdir);
-                    }
-                }
+                Battle_System system = GameObject.Find("BattleSystem").GetComponent<Battle_System>();
+                selectedunit = system.GetSelectedUnit(system.EnemyUnits, system.AllyUnits); // get current selected unit
             }
-
-            if(Input.GetMouseButtonDown(0)) {
-
-                if(selectedunit != null)  // se uma unidade esta selecionada
-                {
-                    if(selectedunit.ally && inrangetiles.Contains(selectedtile) && !selectedtile.Hasunit && !selectedunit.Attack) // se é um movimento valido
-                    {
-                        ismoving = true;
-                        selectedunit.Moviment -= path.Count;
-                    }
-                    if(selectedunit.ally && inattackrange.Contains(selectedtile) && selectedunit.Attack) // se é um ataque válido
-                    {
-                        Debug.Log("Valid Attack");
-                        attackfinder.AttackAction(selectedunit, selectedtile);
-                    }
-                }
-            }
-        }
-
-        if(path.Count > 0 && ismoving)
+        } else 
         {
-            MoveAlongPath(selectedunit);
-            if(path.Count == 0)
-            {
-                selectedunit.SelectedUnit = true;
+            if(focusontilehit.HasValue) 
+            { // verifica se esta em cima de um tile 
+                Selected_Tile selectedtile = focusontilehit.Value.collider.gameObject.GetComponent<Selected_Tile>(); //pega aonde esta esse tile
+                transform.position = selectedtile.transform.position; // coloca o mouse no lugar certo]
             }
-
-        } else
-        {
-            Battle_System system = GameObject.Find("BattleSystem").GetComponent<Battle_System>();
-            selectedunit = system.GetSelectedUnit(system.EnemyUnits, system.AllyUnits); // get current selected unit
         }
     }
 
@@ -146,6 +156,12 @@ public class Mouse_Controler : MonoBehaviour
         {
             PositionUnitOnTile(unit, path[0]); 
             path.RemoveAt(0);
+            unit.Moviment -= 1;
+        }
+
+        if(unit.Moviment == 0)
+        {
+            path = new List<Selected_Tile>();
         }
 
         if( path.Count == 0 )

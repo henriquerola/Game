@@ -15,6 +15,7 @@ public class UI_Managment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var battlesystem = GameObject.Find("BattleSystem").GetComponent<Battle_System>();
         var cursor = GameObject.Find("Cursor").GetComponent<Mouse_Controler>();
         var hab1 = transform.Find("UIHab1");
         var hab2 = transform.Find("UIHab2");
@@ -40,7 +41,7 @@ public class UI_Managment : MonoBehaviour
             hab1.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
             hab2.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
         }
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && battlesystem.State != battlestate.START && !cursor.ismoving)
         {
             Vector3 cursorposition = mainCamera.ScreenToWorldPoint(Input.mousePosition); //x y z coord of the mouse
             Vector2 cursorposition2D = new Vector2(cursorposition.x,cursorposition.y); // xy coord
@@ -50,7 +51,6 @@ public class UI_Managment : MonoBehaviour
                 {
                     if (hits[i].collider.gameObject.name == "UIEndTurnButtom")
                     {
-                        var battlesystem = GameObject.Find("BattleSystem").GetComponent<Battle_System>();
                         battlesystem.State = battlestate.ENDTURN;
                     }
 

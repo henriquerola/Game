@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public enum battlestate {START, PLAYERTURN, ENDTURN, ENEMYTURN, WON, LOST}
+public enum battlestate {START, PLAYERTURN, ENDTURN, ENEMYTURN, WON, LOST} // MAP
 
 public class Battle_System : MonoBehaviour
 {
@@ -46,26 +46,45 @@ public class Battle_System : MonoBehaviour
                         int rand = Random.Range(0,2);
                         if(rand == 1) {
                             unit = Instantiate(Unitprefab, EnemyUnits.transform).GetComponent<Unit_Control>();
-                        } else {
-                            unit = Instantiate(Unitprefab, AllyUnits.transform).GetComponent<Unit_Control>();
-
                         }
                     }
                 }
             }
         }
-        State = battlestate.PLAYERTURN;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(State == battlestate.ENDTURN)
+        if(State != battlestate.START)
+        {
+            var container = EnemyUnits.GetComponentsInChildren<Unit_Control>();
+            if (container.Length == 0) // check if WON
+            {
+                State = battlestate.WON;
+                Debug.Log("WON");
+            }
+            container = AllyUnits.GetComponentsInChildren<Unit_Control>();
+            if (container.Length == 0) // check if LOST
+            {
+                State = battlestate.LOST;
+                Debug.Log("LOST");
+            }
+        }
+
+        if(State == battlestate.START) // spawn unit
+        {
+            if(Input.GetMouseButtonDown(0)) 
+            {
+                SpawnUnit();
+            }
+        }
+        if(State == battlestate.ENDTURN) // end turn
         {
             EndTurn();
             State = battlestate.ENEMYTURN;
         }
-        if(State == battlestate.ENEMYTURN)
+        if(State == battlestate.ENEMYTURN) 
         {
             Unit_Control[] units = EnemyUnits.GetComponentsInChildren<Unit_Control>();
             foreach(var unit in units) // execute ai behaivour for each unit
@@ -115,11 +134,42 @@ public class Battle_System : MonoBehaviour
         {
             unit.Moviment = unit.MaxMoviment;
         }
+
+        units = EnemyUnits.GetComponentsInChildren<Unit_Control>();
+
+        foreach(var unit in units)
+        {
+            unit.Moviment = unit.MaxMoviment;
+        }
     }
 
     private void EnemyAction(Unit_Control unit) // TODO: menemy moviment and action.
     {
         unitbehaiviours = new Unit_Behaiviours();
         unitbehaiviours.EnemyMoviment(unit);
+    }
+
+    private void SpawnUnit()
+    {
+        var playerinfo = GameObject.Find("PlayerInfo").GetComponent<Player_Info>();
+        var cursor = GameObject.Find("Cursor").GetComponent<Mouse_Controler>();
+        Unit_Control unit;
+        var focusontilehit = cursor.focusontile();
+        if(focusontilehit.HasValue)
+        {
+            Selected_Tile selectedtile = focusontilehit.Value.collider.gameObject.GetComponent<Selected_Tile>();
+            if(!selectedtile.Hasunit)
+            {
+                Unitprefab.transform.position = cursor.transform.position;
+                unit = Instantiate(Unitprefab, AllyUnits.transform).GetComponent<Unit_Control>();
+                unit.ID = playerinfo.player_units[playerinfo.unitsingame];
+                playerinfo.unitsingame += 1;
+                if (playerinfo.unitsingame == 4)
+                {
+                    Debug.Log("Max Number of Units in play");
+                    State = battlestate.PLAYERTURN;
+                }
+            }
+        }
     }
 }

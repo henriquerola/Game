@@ -87,7 +87,7 @@ public class Attack_Finder
             if(target != null)
             {
                 Unit_Control targetunit = target.GetComponent<Unit_Control>();
-                if(!targetunit.ally) // attack
+                if((!targetunit.ally && unit.ally) || (targetunit.ally && !unit.ally)) // attack
                 {
                     AttackAnimation();
                     targetunit.CurrentHP -= unit.Damage;

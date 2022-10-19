@@ -10,7 +10,6 @@ public class Range_Finder
     public List<Selected_Tile> GetTilesInRange(Selected_Tile startingtile, int range) 
     {
         Map_Manager map_manager = GameObject.Find("Grid").GetComponentInChildren<Map_Manager>();
-        Debug.Log(range);
         var inrangetiles = new List<Selected_Tile>(); // all the tiles tha are in range
         int stepcount = 0; // steps away from starting tile
 

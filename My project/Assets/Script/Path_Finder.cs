@@ -34,7 +34,7 @@ public class Path_Finder
 
             foreach(var neighbor in Neighbortiles)
             {
-                if(neighbor.IsBlocked || Closelist.Contains(neighbor))
+                if(neighbor.Hasunit || Closelist.Contains(neighbor))
                 {
                     continue;
                 }
