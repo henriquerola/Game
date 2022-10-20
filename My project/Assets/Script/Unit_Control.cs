@@ -51,7 +51,9 @@ public class Unit_Control : MonoBehaviour
         CheckCondition();
         
         if(Hover) { // deixar brilhante ou mostrar informções basicas aqui
-        
+            var UI = GameObject.Find("UI").GetComponent<UI_Managment>();
+            UI.unitinfo.text = "HP: " + this.CurrentHP + "/" + this.MaxHP + "\nMV: " + this.Moviment + "/" + this.MaxMoviment + "\nTYPE: " + this.Type;
+
         }
 
         if(SelectedUnit) { // abrir a possibilidade de movimento ou ataque para unidades aliadas e mostrar informações de unidades inimigas
