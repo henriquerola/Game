@@ -118,11 +118,26 @@ public class Unit_Control : MonoBehaviour
         }
     }
 
-    private void CheckCondition() // check conditions (death, poison, fire)
+    private void CheckCondition() // check conditions (death, poison, fire, selection)
     {
+        var renderer = GetComponentInChildren<SpriteRenderer>();
         if(this.CurrentHP <= 0)
         {
             Destroy(gameObject);
+        }
+        if(this.Hover || this.SelectedUnit)
+        {
+            renderer.material.SetFloat("_IsSelected", 1);
+            if(this.Hover)
+            {
+                renderer.material.SetColor("_OutlineColor", Color.yellow);
+            } else
+            {
+                renderer.material.SetColor("_OutlineColor", Color.green);
+            }
+        } else
+        {
+            renderer.material.SetFloat("_IsSelected", 0);
         }
     }
 }
