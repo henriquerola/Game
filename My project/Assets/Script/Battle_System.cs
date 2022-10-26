@@ -126,13 +126,14 @@ public class Battle_System : MonoBehaviour
         return null;
     }
 
-    private void EndTurn()
+    private void EndTurn() // reset turn especific variables on units
     {
         Unit_Control[] units = AllyUnits.GetComponentsInChildren<Unit_Control>();
 
         foreach(var unit in units)
         {
             unit.Moviment = unit.MaxMoviment;
+            unit.attacked = 0;
         }
 
         units = EnemyUnits.GetComponentsInChildren<Unit_Control>();
@@ -140,6 +141,7 @@ public class Battle_System : MonoBehaviour
         foreach(var unit in units)
         {
             unit.Moviment = unit.MaxMoviment;
+            unit.attacked = 0;
         }
     }
 
@@ -160,9 +162,9 @@ public class Battle_System : MonoBehaviour
             Selected_Tile selectedtile = focusontilehit.Value.collider.gameObject.GetComponent<Selected_Tile>();
             if(!selectedtile.Hasunit)
             {
-                Unitprefab.transform.position = cursor.transform.position;
+                Unitprefab.transform.position = new Vector3(cursor.transform.position.x, cursor.transform.position.y, cursor.transform.position.z - Mathf.Abs(cursor.transform.position.y)*0.00001f);
                 unit = Instantiate(Unitprefab, AllyUnits.transform).GetComponent<Unit_Control>();
-                unit.ID = playerinfo.player_units[playerinfo.unitsingame];
+                unit.ID = playerinfo.player_units[playerinfo.unitsingame] - 1;
                 playerinfo.unitsingame += 1;
                 if (playerinfo.unitsingame == 4)
                 {

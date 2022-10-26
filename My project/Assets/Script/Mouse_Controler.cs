@@ -95,7 +95,7 @@ public class Mouse_Controler : MonoBehaviour
                             ismoving = true;
                             
                         }
-                        if(selectedunit.ally && inattackrange.Contains(selectedtile) && selectedunit.Attack) // se é um ataque válido
+                        if(selectedunit.ally && inattackrange.Contains(selectedtile) && selectedunit.Attack && selectedunit.attacked < 1) // se é um ataque válido
                         {
                             Debug.Log("Valid Attack");
                             attackfinder.AttackAction(selectedunit, selectedtile);
@@ -173,7 +173,7 @@ public class Mouse_Controler : MonoBehaviour
     // put unit pos = to tile pos and unit.activetile
     public void PositionUnitOnTile(Unit_Control unit, Selected_Tile tile)
     {
-        unit.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z);
+        unit.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y, tile.transform.position.z - Mathf.Abs(tile.transform.position.y)*0.00001f);
         unit.activetile = tile;
     }
 

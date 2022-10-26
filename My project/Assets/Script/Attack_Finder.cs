@@ -91,6 +91,7 @@ public class Attack_Finder
                 {
                     AttackAnimation();
                     targetunit.CurrentHP -= unit.Damage;
+                    unit.attacked += 1;
                 }
             }
             // process attack

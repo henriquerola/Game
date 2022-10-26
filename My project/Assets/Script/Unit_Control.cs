@@ -16,6 +16,7 @@ public class Unit_Control : MonoBehaviour
     public List<string> Habilities;
     public int MaxMoviment;
     public int Moviment;
+    public int attacked = 0;
 
     // information for internal use
     public bool SelectedUnit = false;
@@ -33,11 +34,9 @@ public class Unit_Control : MonoBehaviour
     {
         if(this.transform.parent.name == "AllyUnits") { // if mind control exists put this in update
             this.ally = true;
-            ID = 1;
         }
         if(this.transform.parent.name == "EnemyUnits") {
             this.ally = false;
-            ID = 0;
         }
 
         AwakeUnit();

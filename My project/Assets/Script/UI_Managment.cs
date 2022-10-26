@@ -8,6 +8,7 @@ public class UI_Managment : MonoBehaviour
     [SerializeField] private Camera mainCamera; //just so i can chosse wich camera
     [SerializeField] private TextMeshProUGUI unitname;
     [SerializeField] public TextMeshProUGUI unitinfo;
+    [SerializeField] public TextMeshProUGUI turninfo;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,30 @@ public class UI_Managment : MonoBehaviour
         var hab2 = transform.Find("UIHab2");
         var portrait = transform.Find("UIPortrait");
 
+        if(battlesystem.State == battlestate.START) // turn info
+        {
+            turninfo.text = "Setup Phase";
+        }
+        else if(battlesystem.State == battlestate.ENDTURN)
+        {
+            turninfo.text = "End Turn";
+        }
+        else if(battlesystem.State == battlestate.ENEMYTURN)
+        {
+            turninfo.text = "Enemy Turn";
+        }
+        else if(battlesystem.State == battlestate.WON)
+        {
+            turninfo.text = "You Won !!";
+        }
+        else if(battlesystem.State == battlestate.PLAYERTURN)
+        {
+            turninfo.text = "Your Turn";
+        }
+        else if(battlesystem.State == battlestate.LOST)
+        {
+            turninfo.text = "You Lost";
+        } 
         unitinfo.text = ""; // reset unitinfo
 
         if(cursor.selectedunit != null) // show selected unit GUI
