@@ -129,6 +129,12 @@ public class Battle_System : MonoBehaviour
     private void EndTurn() // reset turn especific variables on units
     {
         Unit_Control[] units = AllyUnits.GetComponentsInChildren<Unit_Control>();
+        var cursor = GameObject.Find("Cursor").GetComponent<Mouse_Controler>();
+        if(cursor.selectedunit != null)
+        {
+            cursor.selectedunit.SelectedUnit = false;
+            cursor.selectedunit = null; 
+        }
 
         foreach(var unit in units)
         {

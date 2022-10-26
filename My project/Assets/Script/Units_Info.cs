@@ -8,7 +8,11 @@ public class Units_Info
     public string[] Name = {
         "BlueSlime",
         "GreenSlime",
-        "Aprendice"
+        "Novice Adventurer",
+        "Novice Archer",
+        "Novice Knight",
+        "Novice Mage",
+        "Veteran Adventurer",
     };
 
     public int[] MaxHP = {
