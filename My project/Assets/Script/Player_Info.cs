@@ -14,7 +14,7 @@ public class Player_Info : MonoBehaviour // information about the player units, 
     {
         for(int i = 0; i < 4; i++)
         {
-            player_units.Add(3);
+            player_units.Add(i+2);
         }
     }
 
