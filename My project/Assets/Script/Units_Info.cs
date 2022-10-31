@@ -18,8 +18,10 @@ public class Units_Info
     public int[] MaxHP = {
         2,
         2,
+        3,
         4,
         4,
+        5,
         4
     };
     public int[] Damage = {
@@ -27,6 +29,8 @@ public class Units_Info
         1,
         1,
         1,
+        1,
+        2,
         1
     };
     public int[] Range = {
@@ -34,6 +38,8 @@ public class Units_Info
         1,
         1,
         3,
+        1,
+        1,
         1
     };
     public string[] Type = {
@@ -41,19 +47,28 @@ public class Units_Info
         "Slime",
         "Human",
         "Human",
+        "Human",
+        "Human",
         "Human"
     };
     public int[] MaxMoviment = {
         3,
         3,
+        3,
         4,
         4,
-        4,
+        3,
+        4
     };
     public string[] Behaviour = {
         "Brute",
-        "Coward"
+        "Brute",
+        "Brute",
+        "Brute",
+        "Brute",
+        "Brute",
+        "Coward",
     };
     // not in order
-    public string[,] Habilities = new string[5,2]{{"BasicAttack","XAttack"}, {"BasicAttack","YAttack"}, {"BasicAttack", "Nothing"}, {"BasicAttack", "Nothing"}, {"BasicAttack", "YAttack"}};  
+    public string[,] Habilities = new string[7,2]{{"BasicAttack","Nothing"}, {"BasicAttack","Nothing"}, {"BasicAttack", "Nothing"}, {"BasicAttack", "Nothing"}, {"BasicAttack", "YAttack"}, {"BasicAttack","Nothing"}, {"BasicAttack","Nothing"}};  
 }

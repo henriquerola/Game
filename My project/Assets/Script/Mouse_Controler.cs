@@ -50,8 +50,11 @@ public class Mouse_Controler : MonoBehaviour
                     }
                     if(Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2)) // attack mode
                     {
-                        selectedunit.Attack = !selectedunit.Attack;
-                        HabID = 1;
+                        if(selectedunit.Habilities[1] != "Nothing")
+                        {
+                            selectedunit.Attack = !selectedunit.Attack;
+                            HabID = 1;
+                        }
                     }
                 }
                 if(selectedunit.Attack) // display attack

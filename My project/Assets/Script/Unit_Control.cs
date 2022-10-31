@@ -24,6 +24,8 @@ public class Unit_Control : MonoBehaviour
     public bool ally = false;
     public bool Attack = false;
     public string Behaviour;
+    public int Exp = 0;
+    public int Lv = 0;
 
     public Selected_Tile activetile;
     public List<Sprite> Sprites;

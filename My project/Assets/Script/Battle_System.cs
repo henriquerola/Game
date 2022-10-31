@@ -40,12 +40,17 @@ public class Battle_System : MonoBehaviour
                 if(ground.HasTile(tilelocation)) {
                     int randnum = Random.Range(1,max_enemies); // por enquanto  é random pra testar as unidades
 
-                    if(randnum <= 2) {
+                    if(randnum <= 4) {
                         var cellpos = ground.GetCellCenterWorld(tilelocation); //localizacao como cell e nao pos
-                        Unitprefab.transform.position = new Vector3(cellpos.x,cellpos.y,cellpos.z+1); 
+                        Unitprefab.transform.position = new Vector3(cellpos.x,cellpos.y,cellpos.z+1);
+                        unit = Instantiate(Unitprefab, EnemyUnits.transform).GetComponent<Unit_Control>();
                         int rand = Random.Range(0,2);
                         if(rand == 1) {
-                            unit = Instantiate(Unitprefab, EnemyUnits.transform).GetComponent<Unit_Control>();
+                            unit.ID = 0;
+                        }
+                        else
+                        {
+                            unit.ID = 1;
                         }
                     }
                 }
@@ -62,13 +67,11 @@ public class Battle_System : MonoBehaviour
             if (container.Length == 0) // check if WON
             {
                 State = battlestate.WON;
-                Debug.Log("WON");
             }
             container = AllyUnits.GetComponentsInChildren<Unit_Control>();
             if (container.Length == 0) // check if LOST
             {
                 State = battlestate.LOST;
-                Debug.Log("LOST");
             }
         }
 

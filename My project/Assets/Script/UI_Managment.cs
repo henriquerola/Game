@@ -56,26 +56,42 @@ public class UI_Managment : MonoBehaviour
             unitname.text = cursor.selectedunit.Name;
 
             portrait.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+            if(cursor.selectedunit.Habilities[1] == "Nothing")
+            {
+                hab2.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+            }
             if(cursor.selectedunit.Attack) // atk GUI
             {
                 if(cursor.HabID == 0)
                 {
                     hab1.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0.5f);
-                    hab2.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+                    if(cursor.selectedunit.Habilities[1] != "Nothing")
+                    {
+                        hab2.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+                    }
                 }
                 else if(cursor.HabID == 1)
                 {
-                    hab2.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0.5f);
+                    if(cursor.selectedunit.Habilities[1] != "Nothing")
+                    {
+                        hab2.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0.5f);
+                    }
                     hab1.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
                 }
             } else if(cursor.selectedunit.ally) // ally GUI
             {
                 hab1.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
-                hab2.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+                if(cursor.selectedunit.Habilities[1] != "Nothing")
+                {
+                    hab2.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+                }
             } else  // enemy GUI
             {
-                hab1.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
-                hab2.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+                hab1.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+                if(cursor.selectedunit.Habilities[1] != "Nothing")
+                {
+                    hab2.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+                }
             }
         } else // hide unit GUI
         {
