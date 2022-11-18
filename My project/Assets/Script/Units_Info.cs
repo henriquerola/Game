@@ -6,8 +6,8 @@ public class Units_Info
 {
     // in order 
     public string[] Name = {
-        "BlueSlime",
-        "GreenSlime",
+        "Blue Slime",
+        "Green Slime",
         "Novice Adventurer",
         "Novice Archer",
         "Novice Mage",
